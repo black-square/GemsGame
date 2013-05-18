@@ -3,13 +3,28 @@
 #include <boost/random/uniform_int_distribution.hpp>
 
 
+struct DummyGameLogicEvents: public IGameLogicEvents
+{
+  void OnSwap( point_t p1, point_t p2 ) {}
+};
+
+static DummyGameLogicEvents g_dummyGameLogicEvents; 
+
 //////////////////////////////////////////////////////////////////////////
 typedef boost::random::uniform_int_distribution<> TRngGen;
 //////////////////////////////////////////////////////////////////////////
 
-GameLogic::GameLogic(): m_rng( static_cast<unsigned int>(std::time(0)) )
+GameLogic::GameLogic(): 
+  m_rng( static_cast<unsigned int>(std::time(0)) ), 
+  m_pEvents(&g_dummyGameLogicEvents)
 {
 
+}
+//////////////////////////////////////////////////////////////////////////
+
+void GameLogic::SetEventsHandler( IGameLogicEvents *pEvents /*= 0*/ )
+{
+  m_pEvents = pEvents != 0 ? pEvents : &g_dummyGameLogicEvents; 
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -308,11 +323,13 @@ int GameLogic::GetRand( int from, int to ) const
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GameLogic::Swap( GameField &field, point_t p1, point_t p2 )
+void GameLogic::Swap( GameField &field, point_t p1, point_t p2 ) const 
 {
   const GameField::Color cl = field.Get( p1 );
   field.Set( p1, field.Get( p2 ) );
   field.Set( p2, cl );
+
+  m_pEvents->OnSwap( p1, p2 );
 }
 
 

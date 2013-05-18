@@ -4,6 +4,11 @@
 #include "GameField.h"
 #include <boost/random/mersenne_twister.hpp>
     
+struct IGameLogicEvents
+{
+  virtual void OnSwap( point_t p1, point_t p2 ) = 0;
+};
+
 // No moves field: http://gyazo.com/1e67cc33fe5f2e7c4689984e7a4d3bfe
 class GameLogic
 {
@@ -24,9 +29,10 @@ public:
   static void FillEmptyToDown( GameField &field );
   static bool DestroyAndFillEmptyToDown( GameField &field );
 
-  static void Swap( GameField &field, point_t p1, point_t p2 );
-
+  void Swap( GameField &field, point_t p1, point_t p2 ) const;
   int GetRand( int from, int to ) const;
+
+  void SetEventsHandler( IGameLogicEvents *pEvents = 0 ); 
 
 private:
   class FieldProxyOrigin;
@@ -49,5 +55,6 @@ private:
 
 private:
   mutable boost::random::mt19937 m_rng;
+  IGameLogicEvents *m_pEvents;
 };
 #endif // GameLogic_h__

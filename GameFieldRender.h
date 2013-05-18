@@ -4,7 +4,7 @@
 #include "GameField.h"
 #include "Texture.h"
 
-class GameFieldRender
+class GameFieldRender: boost::noncopyable
 {
 public:
   typedef boost::optional<point_t> PosOpt;
