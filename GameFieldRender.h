@@ -7,13 +7,23 @@
 class GameFieldRender
 {
 public:
-  GameFieldRender( const GameField &field ): m_field(field) {}
+  typedef boost::optional<point_t> PosOpt;
 
-  void Init();
-  void Render( SDL_Surface* pSurface, point_t pos ); 
+public:
+  GameFieldRender( const GameField &field ): m_field(field), m_cellSize(0) {}
+
+  void Init( point_t pos, int cellSize );
+  void Render( SDL_Surface* pSurface ) const; 
+
+  PosOpt GetGemPos( point_t mousePos ) const;
+
+private:
+  rect_t GetBoarders() const;
 
 private:
   const GameField &m_field;
+  point_t m_pos;
+  int m_cellSize;
   Texture m_gems[GameField::ColorsCount];
 };
 
