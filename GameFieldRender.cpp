@@ -9,7 +9,7 @@ void GameFieldRender::Init( point_t pos, int cellSize )
   for( int i = 0; i < GameField::ColorsCount; ++i )
     m_gems[i].Load( MakeString(FMT("./_data/gem_%02d.png") % (i + 1)).c_str() );
     
-  m_mark.Load("./_data/mark.png");  
+  m_mark.Load("./_data/mark2.png");  
 }
 //////////////////////////////////////////////////////////////////////////
 

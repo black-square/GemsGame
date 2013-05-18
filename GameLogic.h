@@ -3,11 +3,13 @@
 
 #include "GameField.h"
 #include <boost/random/mersenne_twister.hpp>
-
+    
+// No moves field: http://gyazo.com/1e67cc33fe5f2e7c4689984e7a4d3bfe
 class GameLogic
 {
 public:
-  typedef std::vector< std::pair<point_t, point_t> > TMoves;
+  typedef std::pair<point_t, point_t> TMove;
+  typedef std::vector< TMove > TMoves;
   typedef std::vector< point_t > TPoints;
 
 public:
@@ -22,10 +24,15 @@ public:
   static void FillEmptyToDown( GameField &field );
   static bool DestroyAndFillEmptyToDown( GameField &field );
 
+  static void Swap( GameField &field, point_t p1, point_t p2 );
+
+  int GetRand( int from, int to ) const;
+
 private:
   class FieldProxyOrigin;
   class FieldProxyMirrored;
   class ThreeInLineFnct;
+  struct TOneMove;
 
 private:
   template< class FieldProxyT >
@@ -38,7 +45,7 @@ private:
   static GameField::Color IsPatMatched( FieldProxyT field, point_t cur, const point_t (&pat)[N] );
 
   template< class FieldProxyT, int N >
-  static void CheckPossibleMoves( FieldProxyT field, point_t cur, GameField::Color cl, const point_t (&pat)[N], TMoves &moves );
+  static void CheckPossibleMoves( FieldProxyT field, point_t cur, GameField::Color cl, const TOneMove (&pat)[N], TMoves &moves );
 
 private:
   mutable boost::random::mt19937 m_rng;

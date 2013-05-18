@@ -2,6 +2,11 @@
 #include "GameLogic.h"
 #include <boost/random/uniform_int_distribution.hpp>
 
+
+//////////////////////////////////////////////////////////////////////////
+typedef boost::random::uniform_int_distribution<> TRngGen;
+//////////////////////////////////////////////////////////////////////////
+
 GameLogic::GameLogic(): m_rng( static_cast<unsigned int>(std::time(0)) )
 {
 
@@ -10,7 +15,7 @@ GameLogic::GameLogic(): m_rng( static_cast<unsigned int>(std::time(0)) )
 
 void GameLogic::FillEmptyRandomly( GameField &field ) const
 {
-  boost::random::uniform_int_distribution<> dist( 0, GameField::ColorsCount - 1 );
+  TRngGen dist( 0, GameField::ColorsCount - 1 );
 
   for( int x = 0; x < GameField::FieldSize; ++x )
     for( int y = 0; y < GameField::FieldSize; ++y )
@@ -168,9 +173,7 @@ bool GameLogic::FindMatches( GameField &field, TPoints &matches )
 void GameLogic::Remove( GameField &field, const TPoints &matches )
 {
   BOOST_FOREACH( const point_t &pt, matches )
-  {
     field.Set( pt, GameField::Empty );
-  }
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -207,25 +210,32 @@ GameField::Color GameLogic::IsPatMatched( FieldProxyT field, point_t cur, const 
 //////////////////////////////////////////////////////////////////////////
 
 template< class FieldProxyT, int N >
-void GameLogic::CheckPossibleMoves( FieldProxyT field, point_t cur, GameField::Color cl, const point_t (&pat)[N], TMoves &moves )
+void GameLogic::CheckPossibleMoves( FieldProxyT field, point_t cur, GameField::Color cl, const TOneMove (&patterns)[N], TMoves &moves )
 {
   ASSERT( cl != GameField::Empty );
 
-  BOOST_FOREACH( const point_t &pt, pat )
+  BOOST_FOREACH( const TOneMove &pat, patterns )
   {
-    const point_t realPat = cur + pt;
+    const point_t realPat = cur + pat.from;
 
     if( field.IsValid(realPat) && field.Get(realPat) == cl )
     {
-      moves.push_back( std::make_pair(field.ToRealPoint(realPat), field.ToRealPoint(realPat)) );
+      moves.push_back( std::make_pair(field.ToRealPoint(realPat), field.ToRealPoint(cur + pat.to)) );
     }
   } 
 }
 //////////////////////////////////////////////////////////////////////////
 
+struct GameLogic::TOneMove
+{
+  point_t from;
+  point_t to;
+};
+//////////////////////////////////////////////////////////////////////////
+
 template< class FieldProxyT >
 void GameLogic::FindAllMovesImpl( FieldProxyT field, TMoves &moves )
-{
+{  
   // 0 X 0
   // X 0 X
   // 0 @ 0 
@@ -237,10 +247,14 @@ void GameLogic::FindAllMovesImpl( FieldProxyT field, TMoves &moves )
     point_t(0, +1) 
   };
 
-  static const point_t rgPsbl1[] = 
+  static const TOneMove rgPsbl1[] = 
   { 
-    point_t(-1, -1), point_t(0, -2), point_t(+1, -1),
-    point_t(-1, +2), point_t(0, +3), point_t(+1, +2)
+    { point_t(-1, -1), point_t(0, -1) }, 
+    { point_t( 0, -2), point_t(0, -1) }, 
+    { point_t(+1, -1), point_t(0, -1) },
+    { point_t(-1, +2), point_t(0, +2) },
+    { point_t( 0, +3), point_t(0, +2) }, 
+    { point_t(+1, +2), point_t(0, +2) }
   };
 
   // 0 @ 0
@@ -251,9 +265,10 @@ void GameLogic::FindAllMovesImpl( FieldProxyT field, TMoves &moves )
     point_t(0, +2) 
   };
 
-  static const point_t rgPsbl2[] = 
+  static const TOneMove rgPsbl2[] = 
   { 
-    point_t(-1, +1), point_t(+1, +1)
+    { point_t(-1, +1), point_t(0, +1) },
+    { point_t(+1, +1), point_t(0, +1) }
   };
 
   for( int x = 0; x < GameField::FieldSize; ++x )
@@ -284,6 +299,20 @@ void GameLogic::FindAllMoves( GameField &field, TMoves &moves )
 
   FindAllMovesImpl( FieldProxyOrigin(field), moves );
   FindAllMovesImpl( FieldProxyMirrored(field), moves );                                                      
+}
+//////////////////////////////////////////////////////////////////////////
+
+int GameLogic::GetRand( int from, int to ) const
+{
+  return TRngGen( from, to )( m_rng );
+}
+//////////////////////////////////////////////////////////////////////////
+
+void GameLogic::Swap( GameField &field, point_t p1, point_t p2 )
+{
+  const GameField::Color cl = field.Get( p1 );
+  field.Set( p1, field.Get( p2 ) );
+  field.Set( p2, cl );
 }
 
 
