@@ -8,13 +8,19 @@ class GameLogic
 {
 public:
   typedef std::vector< std::pair<point_t, point_t> > TMoves;
+  typedef std::vector< point_t > TPoints;
 
 public:
   GameLogic();
 
   void FillEmptyRandomly( GameField &field ) const;
-  static bool DestroyMatched( GameField &field );
+  static bool FindMatches( GameField &field, TPoints &matches );
+  static void Remove( GameField &field, const TPoints &matches );
+  static bool RemoveMatches( GameField &field );
+
   static void FindAllMoves( GameField &field, TMoves &moves );
+  static void FillEmptyToDown( GameField &field );
+  static bool DestroyAndFillEmptyToDown( GameField &field );
 
 private:
   class FieldProxyOrigin;
@@ -32,7 +38,7 @@ private:
   static GameField::Color IsPatMatched( FieldProxyT field, point_t cur, const point_t (&pat)[N] );
 
   template< class FieldProxyT, int N >
-  static boost::optional<point_t> IsOneOfPatMatched( FieldProxyT field, point_t cur, GameField::Color cl, const point_t (&pat)[N] );
+  static void CheckPossibleMoves( FieldProxyT field, point_t cur, GameField::Color cl, const point_t (&pat)[N], TMoves &moves );
 
 private:
   mutable boost::random::mt19937 m_rng;

@@ -34,7 +34,6 @@ void GameFieldRender::RenderMark( SDL_Surface* pSurface, point_t pt ) const
   Draw( pSurface, m_mark, m_pos + pt * m_cellSize );
 }
 
-
 rect_t GameFieldRender::GetBoarders() const
 {
   return rect_t( m_pos, m_pos + point_t(m_cellSize * GameField::FieldSize, m_cellSize * GameField::FieldSize ) );

@@ -18,6 +18,49 @@ void GameLogic::FillEmptyRandomly( GameField &field ) const
         field.Set( x , y, static_cast<GameField::Color>(dist(m_rng)) );  
 }
 //////////////////////////////////////////////////////////////////////////
+ 
+void GameLogic::FillEmptyToDown( GameField &field )
+{
+  for( int x = 0; x < GameField::FieldSize; ++x )
+  {
+    bool hasMoved;
+
+    do 
+    {
+      hasMoved = false;
+
+      for( int y = GameField::FieldSize - 1; y > 0; --y )
+      {
+        const point_t cur(x, y);
+        const point_t next(x, y - 1);
+        
+        if( field.Get(cur) == GameField::Empty && field.Get(next) != GameField::Empty )
+        {
+          field.Set( cur, field.Get(next) );
+          field.Set( next, GameField::Empty );
+          hasMoved = true;
+        }
+      }
+    } 
+    while (hasMoved);
+  }
+}
+//////////////////////////////////////////////////////////////////////////
+
+bool GameLogic::DestroyAndFillEmptyToDown( GameField &field )
+{
+  if( !RemoveMatches(field) )
+    return false;
+
+  do 
+  {
+    FillEmptyToDown( field );  
+  } 
+  while( RemoveMatches(field) );
+  
+  return true;
+}
+//////////////////////////////////////////////////////////////////////////
 
 class GameLogic::FieldProxyOrigin
 {
@@ -111,21 +154,34 @@ void GameLogic::FindAndAppendMatched( FieldProxyT field, std::vector<point_t> &t
 }
 //////////////////////////////////////////////////////////////////////////
 
-bool GameLogic::DestroyMatched( GameField &field )
+bool GameLogic::FindMatches( GameField &field, TPoints &matches )
 {
-  std::vector<point_t> toDestr;
+  matches.clear();
 
-  FindAndAppendMatched( FieldProxyOrigin(field), toDestr );
-  FindAndAppendMatched( FieldProxyMirrored(field), toDestr );                                                      
- 
-  BOOST_FOREACH( const point_t &pt, toDestr )
+  FindAndAppendMatched( FieldProxyOrigin(field), matches );
+  FindAndAppendMatched( FieldProxyMirrored(field), matches );                                                      
+
+  return !matches.empty();
+}
+//////////////////////////////////////////////////////////////////////////
+
+void GameLogic::Remove( GameField &field, const TPoints &matches )
+{
+  BOOST_FOREACH( const point_t &pt, matches )
   {
     field.Set( pt, GameField::Empty );
   }
-
-  return !toDestr.empty();
 }
 //////////////////////////////////////////////////////////////////////////
+
+bool GameLogic::RemoveMatches( GameField &field )
+{
+  TPoints matches;
+  
+  FindMatches(field, matches);
+  Remove( field, matches );
+  return !matches.empty();
+}
 
 template< class FieldProxyT, int N >
 GameField::Color GameLogic::IsPatMatched( FieldProxyT field, point_t cur, const point_t (&pat)[N] )
@@ -151,7 +207,7 @@ GameField::Color GameLogic::IsPatMatched( FieldProxyT field, point_t cur, const 
 //////////////////////////////////////////////////////////////////////////
 
 template< class FieldProxyT, int N >
-boost::optional<point_t> GameLogic::IsOneOfPatMatched( FieldProxyT field, point_t cur, GameField::Color cl, const point_t (&pat)[N] )
+void GameLogic::CheckPossibleMoves( FieldProxyT field, point_t cur, GameField::Color cl, const point_t (&pat)[N], TMoves &moves )
 {
   ASSERT( cl != GameField::Empty );
 
@@ -160,10 +216,10 @@ boost::optional<point_t> GameLogic::IsOneOfPatMatched( FieldProxyT field, point_
     const point_t realPat = cur + pt;
 
     if( field.IsValid(realPat) && field.Get(realPat) == cl )
-      return field.ToRealPoint(realPat);
+    {
+      moves.push_back( std::make_pair(field.ToRealPoint(realPat), field.ToRealPoint(realPat)) );
+    }
   } 
-
-  return boost::none;
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -206,19 +262,17 @@ void GameLogic::FindAllMovesImpl( FieldProxyT field, TMoves &moves )
       const point_t cur(x, y);
       
       {
-        const GameField::Color cl = IsPatMatched(field, cur, rgPat1 );
+        const GameField::Color cl = IsPatMatched( field, cur, rgPat1 );
         
         if( cl != GameField::Empty )
-          if( const boost::optional<point_t> pt = IsOneOfPatMatched(field, cur, cl, rgPsbl1) )
-            moves.push_back( std::make_pair(*pt, *pt) );  
+          CheckPossibleMoves( field, cur, cl, rgPsbl1, moves );
       }
       
       {
         const GameField::Color cl = IsPatMatched(field, cur, rgPat2 );
 
         if( cl != GameField::Empty )
-          if( const boost::optional<point_t> pt = IsOneOfPatMatched(field, cur, cl, rgPsbl2) )
-            moves.push_back( std::make_pair(*pt, *pt) ); 
+          CheckPossibleMoves( field, cur, cl, rgPsbl2, moves );
       }
     }
 }
