@@ -7,7 +7,9 @@ void GameFieldRender::Init( point_t pos, int cellSize )
   m_cellSize = cellSize;
 
   for( int i = 0; i < GameField::ColorsCount; ++i )
-    m_gems[i].Load( MakeString(FMT("./_data/gem_%02d.png") % (i + 1)).c_str() );  
+    m_gems[i].Load( MakeString(FMT("./_data/gem_%02d.png") % (i + 1)).c_str() );
+    
+  m_mark.Load("./_data/mark.png");  
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -26,6 +28,12 @@ void GameFieldRender::Render( SDL_Surface *pSurface ) const
     }
 }
 //////////////////////////////////////////////////////////////////////////
+
+void GameFieldRender::RenderMark( SDL_Surface* pSurface, point_t pt ) const
+{
+  Draw( pSurface, m_mark, m_pos + pt * m_cellSize );
+}
+
 
 rect_t GameFieldRender::GetBoarders() const
 {

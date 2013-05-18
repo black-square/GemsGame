@@ -9,17 +9,24 @@ public:
   enum Color
   {
     Empty = -1,
-    Color_01,
-    Color_02,
-    Color_03,
-    Color_04,
-    Color_05,
-    ColorsCount
+    ColorsCount = 5
   };
 
 public:
   GameField();
+
+  void Clear();
   
+  bool IsValid( int x, int y ) const
+  {
+    return x >= 0 && x < FieldSize && y >= 0 && y < FieldSize;
+  }
+
+  bool IsValid( point_t pt ) const
+  {
+    return IsValid( pt.x, pt.y );
+  }
+
   Color Get( int x, int y ) const
   {
     ASSERT( x >= 0 && x < FieldSize && y >= 0 && y < FieldSize );
@@ -38,9 +45,9 @@ public:
     return Get( pt.x, pt.y ); 
   }
   
-  void Set(  point_t pt, Color cl ) 
+  void Set( point_t pt, Color cl ) 
   { 
-    Set( pt.x, pt.y, cl); 
+    Set( pt.x, pt.y, cl ); 
   } 
 
 private:
