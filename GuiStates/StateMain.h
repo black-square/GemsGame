@@ -3,7 +3,7 @@
 
 #include "Gui/State.h"
 
-class GuiStateMain: public GuiState
+class GuiStateMain: public Gui::State
 {   
 public:
   typedef GuiStateMain ThisType;

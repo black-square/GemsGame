@@ -5,7 +5,7 @@
 
 GuiStateMain::GuiStateMain()
 {
-  AddWidget( boost::make_shared<GuiButton>(
+  AddWidget( boost::make_shared<Gui::Button>(
     Rect( Point(290, 220), Size(200, 50) ),
     boost::make_shared<Font>( "./_data/gm.ttf", 25),
     boost::make_shared<Texture>( "./_data/button_01.png", 2 ),

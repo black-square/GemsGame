@@ -9,7 +9,7 @@
 #include "Logic/AutoPlay.h"
 #include "Gui/Widgets.h"
 
-class GuiStateAutoPlay: public GuiState, private IGameLogicEvents
+class GuiStateAutoPlay: public Gui::State, private IGameLogicEvents
 {
 public:
   typedef GuiStateAutoPlay ThisType;
@@ -39,7 +39,7 @@ private:
   AutoPlay m_autoPlay;
   SimpleTimer<float> m_autoPlayTimer;
 
-  GuiLabel::TPtr m_pScore;
+  Gui::Label::TPtr m_pScore;
 
   int m_movesCount;
 };

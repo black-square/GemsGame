@@ -8,38 +8,38 @@ GuiStateAutoPlay::GuiStateAutoPlay():
   m_logic.FillEmptyRandomly( m_field );
   m_logic.SetEventsHandler( this );
 
-  AddWidget( boost::make_shared<GuiImage>( Point(0, 0), boost::make_shared<Texture>("./_data/background.jpg") ) );
+  AddWidget( boost::make_shared<Gui::Image>( Point(0, 0), boost::make_shared<Texture>("./_data/background.jpg") ) );
   
   m_fieldRender.Init( Point(330, 100), 42 );
 
-  m_pScore = boost::make_shared<GuiLabel>( Point(38, 120), boost::make_shared<Font>( "./_data/gm.ttf", 25), "No moves" );
+  m_pScore = boost::make_shared<Gui::Label>( Point(38, 120), boost::make_shared<Font>( "./_data/gm.ttf", 25), "No moves" );
   AddWidget( m_pScore );
 
   const Font::TPtr pBtnFont = boost::make_shared<Font>( "./_data/gm.ttf", 17);
   const Texture::TPtr pBtnTex = boost::make_shared<Texture>( "./_data/button_01.png", 2 );
 
-  AddWidget( boost::make_shared<GuiButton>(
+  AddWidget( boost::make_shared<Gui::Button>(
     Rect( Point(650, 5), Size(100, 25) ),
     pBtnFont, pBtnTex,
     BIND_THIS(ReturnToMainState),
     "Main Menu"
   ));
 
-  AddWidget( boost::make_shared<GuiButton>(
+  AddWidget( boost::make_shared<Gui::Button>(
     Rect( Point(240, 530), Size(150, 25) ),
     pBtnFont, pBtnTex,
     BIND_THIS(DoStep),
      "Step (Space)"
   ));
 
-  AddWidget( boost::make_shared<GuiButton>(
+  AddWidget( boost::make_shared<Gui::Button>(
     Rect( Point(400, 530), Size(150, 25) ),
     pBtnFont, pBtnTex,
     BIND_THIS(DoAuto, 0.5f),
     "Auto"
   ));
 
-  AddWidget( boost::make_shared<GuiButton>(
+  AddWidget( boost::make_shared<Gui::Button>(
     Rect( Point(560, 530), Size(150, 25) ),
     pBtnFont, pBtnTex,
     BIND_THIS(DoAuto, 0.001f),
