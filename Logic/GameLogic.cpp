@@ -3,12 +3,7 @@
 #include <boost/random/uniform_int_distribution.hpp>
 
 
-struct DummyGameLogicEvents: public IGameLogicEvents
-{
-  void OnSwap( Point p1, Point p2 ) {}
-};
-
-static DummyGameLogicEvents g_dummyGameLogicEvents; 
+static GameLogic::IEvents g_dummyGameLogicEvents; 
 
 //////////////////////////////////////////////////////////////////////////
 typedef boost::random::uniform_int_distribution<> TRngGen;
@@ -22,7 +17,7 @@ GameLogic::GameLogic():
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GameLogic::SetEventsHandler( IGameLogicEvents *pEvents /*= 0*/ )
+void GameLogic::SetEventsHandler( IEvents *pEvents /*= 0*/ )
 {
   m_pEvents = pEvents != 0 ? pEvents : &g_dummyGameLogicEvents; 
 }
@@ -32,14 +27,19 @@ void GameLogic::FillEmptyRandomly( GameField &field ) const
 {
   TRngGen dist( 0, GameField::ColorsCount - 1 );
 
-  for( int x = 0; x < GameField::FieldSize; ++x )
-    for( int y = 0; y < GameField::FieldSize; ++y )
+  for( int y = GameField::FieldSize - 1; y >= 0; --y ) //Reverse order to simplify presentation
+    for( int x = 0; x < GameField::FieldSize; ++x )    
       if( field.Get(x , y) == GameField::Empty )
-        field.Set( x , y, static_cast<GameField::Color>(dist(m_rng)) );  
+      {
+        const GameField::Color cl = static_cast<GameField::Color>(dist(m_rng));
+
+        field.Set( x, y, cl );
+        m_pEvents->OnGemAdded( Point(x, y), cl );
+      } 
 }
 //////////////////////////////////////////////////////////////////////////
  
-void GameLogic::FillEmptyToDown( GameField &field )
+void GameLogic::FillEmptyToDown( GameField &field ) const
 {
   for( int x = 0; x < GameField::FieldSize; ++x )
   {
@@ -59,6 +59,8 @@ void GameLogic::FillEmptyToDown( GameField &field )
           field.Set( cur, field.Get(next) );
           field.Set( next, GameField::Empty );
           hasMoved = true;
+
+          m_pEvents->OnGemMove( next, cur );
         }
       }
     } 
@@ -67,7 +69,7 @@ void GameLogic::FillEmptyToDown( GameField &field )
 }
 //////////////////////////////////////////////////////////////////////////
 
-bool GameLogic::DestroyAndFillEmptyToDown( GameField &field )
+bool GameLogic::DestroyAndFillEmptyToDown( GameField &field ) const
 {
   if( !RemoveMatches(field) )
     return false;
@@ -185,14 +187,17 @@ bool GameLogic::FindMatches( GameField &field, TPoints &matches )
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GameLogic::Remove( GameField &field, const TPoints &matches )
+void GameLogic::Remove( GameField &field, const TPoints &matches ) const
 {
   BOOST_FOREACH( const Point &pt, matches )
+  {
     field.Set( pt, GameField::Empty );
+    m_pEvents->OnGemDestroyed( pt );
+  }
 }
 //////////////////////////////////////////////////////////////////////////
 
-bool GameLogic::RemoveMatches( GameField &field )
+bool GameLogic::RemoveMatches( GameField &field ) const
 {
   TPoints matches;
   
@@ -316,10 +321,10 @@ void GameLogic::FindAllMoves( GameField &field, TMoves &moves )
   FindAllMovesImpl( FieldProxyMirrored(field), moves );                                                      
 }
 //////////////////////////////////////////////////////////////////////////
-
-int GameLogic::GetRand( int from, int to ) const
+const GameLogic::TMove &GameLogic::GetRand( const TMoves &moves ) const
 {
-  return TRngGen( from, to )( m_rng );
+  ASSERT( !moves.empty() ); 
+  return moves[ TRngGen( 0, moves.size() - 1 )( m_rng ) ];
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -329,7 +334,7 @@ void GameLogic::Swap( GameField &field, Point p1, Point p2 ) const
   field.Set( p1, field.Get( p2 ) );
   field.Set( p2, cl );
 
-  m_pEvents->OnSwap( p1, p2 );
+  m_pEvents->OnGemSwap( p1, p2 );
 }
 
 

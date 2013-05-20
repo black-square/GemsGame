@@ -105,7 +105,7 @@ void GuiStateAutoPlay::OnUpdate( float deltaTime )
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GuiStateAutoPlay::OnRender()
+void GuiStateAutoPlay::OnRender() const
 {  
   BOOST_FOREACH( const Point &cur, m_autoPlay.GetMarks() )
     m_fieldRender.RenderMark( cur ); 
@@ -114,7 +114,7 @@ void GuiStateAutoPlay::OnRender()
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GuiStateAutoPlay::OnSwap( Point p1, Point p2 )
+void GuiStateAutoPlay::OnGemSwap( Point p1, Point p2 )
 {
   ++m_movesCount;
   m_pScore->SetText( MakeString(FMT("Moves count: %d") % m_movesCount) ); 

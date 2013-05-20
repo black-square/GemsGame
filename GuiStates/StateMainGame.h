@@ -16,15 +16,20 @@ public:
   GuiStateMainGame();
 
 private:
-  void OnRender();
+  void OnRender() const;
 
 private:
   void ReturnToMainState();
-  
+
+  virtual void OnUpdate( float deltaTime );
+
+
 private:
   GameField m_field;
   GameLogic m_logic;
   GameFieldRender m_fieldRender;
+  Texture::TPtr m_pTexBack;
+
 };
 
 #endif // StateMainGame_h__

@@ -9,7 +9,7 @@
 #include "Logic/AutoPlay.h"
 #include "Gui/Widgets.h"
 
-class GuiStateAutoPlay: public Gui::State, private IGameLogicEvents
+class GuiStateAutoPlay: public Gui::State, private GameLogic::IEvents
 {
 public:
   typedef GuiStateAutoPlay ThisType;
@@ -22,9 +22,9 @@ private:
   void OnLButtonUp( Point pos );
   void OnKeyDown( SDLKey sym, SDLMod mod, Uint16 unicode );
   void OnUpdate( float deltaTime );
-  void OnRender();
+  void OnRender() const;
   
-  void OnSwap( Point p1, Point p2 );
+  void OnGemSwap( Point p1, Point p2 );
 
 private:
   void ReturnToMainState();

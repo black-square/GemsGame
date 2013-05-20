@@ -49,7 +49,7 @@ void AutoPlay::Update( GameField &field, GameLogic &logic )
       GameLogic::TMoves moves;
       logic.FindAllMoves( field, moves );
       ASSERT( !moves.empty() );
-      m_nextMove = moves[logic.GetRand(0, moves.size() - 1)];
+      m_nextMove = logic.GetRand( moves );
     }
 
     m_marks.clear();
