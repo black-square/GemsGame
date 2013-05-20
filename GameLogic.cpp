@@ -5,7 +5,7 @@
 
 struct DummyGameLogicEvents: public IGameLogicEvents
 {
-  void OnSwap( point_t p1, point_t p2 ) {}
+  void OnSwap( Point p1, Point p2 ) {}
 };
 
 static DummyGameLogicEvents g_dummyGameLogicEvents; 
@@ -51,8 +51,8 @@ void GameLogic::FillEmptyToDown( GameField &field )
 
       for( int y = GameField::FieldSize - 1; y > 0; --y )
       {
-        const point_t cur(x, y);
-        const point_t next(x, y - 1);
+        const Point cur(x, y);
+        const Point next(x, y - 1);
         
         if( field.Get(cur) == GameField::Empty && field.Get(next) != GameField::Empty )
         {
@@ -90,12 +90,12 @@ public:
   bool IsValid( int x, int y ) const { return m_field.IsValid( x, y ); }
   GameField::Color Get( int x, int y ) const { return m_field.Get(x, y); }
   void Set( int x, int y, GameField::Color cl ){ m_field.Set(x, y, cl); }
-  point_t ToRealPoint( int x, int y ) const { return point_t(x, y); }
+  Point ToRealPoint( int x, int y ) const { return Point(x, y); }
   
-  bool IsValid( point_t pt ) const { return IsValid( pt.x, pt.y ); }
-  GameField::Color Get( point_t pt ) const { return Get( pt.x, pt.y ); }
-  void Set( point_t pt, GameField::Color cl ) { Set( pt.x, pt.y, cl ); }
-  point_t ToRealPoint( point_t pt ) const { return ToRealPoint(pt.x, pt.y); }
+  bool IsValid( Point pt ) const { return IsValid( pt.x, pt.y ); }
+  GameField::Color Get( Point pt ) const { return Get( pt.x, pt.y ); }
+  void Set( Point pt, GameField::Color cl ) { Set( pt.x, pt.y, cl ); }
+  Point ToRealPoint( Point pt ) const { return ToRealPoint(pt.x, pt.y); }
   
 
 private:
@@ -111,12 +111,12 @@ public:
   bool IsValid( int x, int y ) const { return m_field.IsValid( y, x ); }
   GameField::Color Get( int x, int y ) const { return m_field.Get(y, x); }
   void Set( int x, int y, GameField::Color cl ){ m_field.Set(y, x, cl); }
-  point_t ToRealPoint( int x, int y ) const { return point_t(y, x); }
+  Point ToRealPoint( int x, int y ) const { return Point(y, x); }
 
-  bool IsValid( point_t pt ) const { return IsValid( pt.x, pt.y ); }
-  GameField::Color Get( point_t pt ) const { return Get( pt.x, pt.y ); }
-  void Set( point_t pt, GameField::Color cl ) { Set( pt.x, pt.y, cl ); } 
-  point_t ToRealPoint( point_t pt ) const { return ToRealPoint(pt.x, pt.y); }
+  bool IsValid( Point pt ) const { return IsValid( pt.x, pt.y ); }
+  GameField::Color Get( Point pt ) const { return Get( pt.x, pt.y ); }
+  void Set( Point pt, GameField::Color cl ) { Set( pt.x, pt.y, cl ); } 
+  Point ToRealPoint( Point pt ) const { return ToRealPoint(pt.x, pt.y); }
 
 private:
   GameField &m_field;
@@ -157,7 +157,7 @@ private:
 //////////////////////////////////////////////////////////////////////////
 
 template< class FieldProxyT >
-void GameLogic::FindAndAppendMatched( FieldProxyT field, std::vector<point_t> &toDestr )
+void GameLogic::FindAndAppendMatched( FieldProxyT field, std::vector<Point> &toDestr )
 {
   for( int x = 0; x < GameField::FieldSize; ++x )
   {
@@ -187,7 +187,7 @@ bool GameLogic::FindMatches( GameField &field, TPoints &matches )
 
 void GameLogic::Remove( GameField &field, const TPoints &matches )
 {
-  BOOST_FOREACH( const point_t &pt, matches )
+  BOOST_FOREACH( const Point &pt, matches )
     field.Set( pt, GameField::Empty );
 }
 //////////////////////////////////////////////////////////////////////////
@@ -202,7 +202,7 @@ bool GameLogic::RemoveMatches( GameField &field )
 }
 
 template< class FieldProxyT, int N >
-GameField::Color GameLogic::IsPatMatched( FieldProxyT field, point_t cur, const point_t (&pat)[N] )
+GameField::Color GameLogic::IsPatMatched( FieldProxyT field, Point cur, const Point (&pat)[N] )
 {
   if( !field.IsValid(cur) )
     return GameField::Empty;
@@ -212,9 +212,9 @@ GameField::Color GameLogic::IsPatMatched( FieldProxyT field, point_t cur, const 
   if( clCur == GameField::Empty )
     return GameField::Empty; 
 
-  BOOST_FOREACH( const point_t &pt, pat )
+  BOOST_FOREACH( const Point &pt, pat )
   {
-    const point_t realPat = cur + pt;
+    const Point realPat = cur + pt;
 
     if( !field.IsValid(realPat) || field.Get(realPat) != clCur )
       return GameField::Empty;
@@ -225,13 +225,13 @@ GameField::Color GameLogic::IsPatMatched( FieldProxyT field, point_t cur, const 
 //////////////////////////////////////////////////////////////////////////
 
 template< class FieldProxyT, int N >
-void GameLogic::CheckPossibleMoves( FieldProxyT field, point_t cur, GameField::Color cl, const TOneMove (&patterns)[N], TMoves &moves )
+void GameLogic::CheckPossibleMoves( FieldProxyT field, Point cur, GameField::Color cl, const TOneMove (&patterns)[N], TMoves &moves )
 {
   ASSERT( cl != GameField::Empty );
 
   BOOST_FOREACH( const TOneMove &pat, patterns )
   {
-    const point_t realPat = cur + pat.from;
+    const Point realPat = cur + pat.from;
 
     if( field.IsValid(realPat) && field.Get(realPat) == cl )
     {
@@ -243,8 +243,8 @@ void GameLogic::CheckPossibleMoves( FieldProxyT field, point_t cur, GameField::C
 
 struct GameLogic::TOneMove
 {
-  point_t from;
-  point_t to;
+  Point from;
+  Point to;
 };
 //////////////////////////////////////////////////////////////////////////
 
@@ -257,39 +257,39 @@ void GameLogic::FindAllMovesImpl( FieldProxyT field, TMoves &moves )
   // 0 @ 0
   // X 0 X
   // 0 X 0
-  static const point_t rgPat1[] = 
+  static const Point rgPat1[] = 
   { 
-    point_t(0, +1) 
+    Point(0, +1) 
   };
 
   static const TOneMove rgPsbl1[] = 
   { 
-    { point_t(-1, -1), point_t(0, -1) }, 
-    { point_t( 0, -2), point_t(0, -1) }, 
-    { point_t(+1, -1), point_t(0, -1) },
-    { point_t(-1, +2), point_t(0, +2) },
-    { point_t( 0, +3), point_t(0, +2) }, 
-    { point_t(+1, +2), point_t(0, +2) }
+    { Point(-1, -1), Point(0, -1) }, 
+    { Point( 0, -2), Point(0, -1) }, 
+    { Point(+1, -1), Point(0, -1) },
+    { Point(-1, +2), Point(0, +2) },
+    { Point( 0, +3), Point(0, +2) }, 
+    { Point(+1, +2), Point(0, +2) }
   };
 
   // 0 @ 0
   // X 0 X
   // 0 @ 0 
-  static const point_t rgPat2[] = 
+  static const Point rgPat2[] = 
   { 
-    point_t(0, +2) 
+    Point(0, +2) 
   };
 
   static const TOneMove rgPsbl2[] = 
   { 
-    { point_t(-1, +1), point_t(0, +1) },
-    { point_t(+1, +1), point_t(0, +1) }
+    { Point(-1, +1), Point(0, +1) },
+    { Point(+1, +1), Point(0, +1) }
   };
 
   for( int x = 0; x < GameField::FieldSize; ++x )
     for( int y = 0; y < GameField::FieldSize; ++y )
     {
-      const point_t cur(x, y);
+      const Point cur(x, y);
       
       {
         const GameField::Color cl = IsPatMatched( field, cur, rgPat1 );
@@ -323,7 +323,7 @@ int GameLogic::GetRand( int from, int to ) const
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GameLogic::Swap( GameField &field, point_t p1, point_t p2 ) const 
+void GameLogic::Swap( GameField &field, Point p1, Point p2 ) const 
 {
   const GameField::Color cl = field.Get( p1 );
   field.Set( p1, field.Get( p2 ) );

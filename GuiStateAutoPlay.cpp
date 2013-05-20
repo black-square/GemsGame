@@ -8,22 +8,22 @@ GuiStateAutoPlay::GuiStateAutoPlay():
   m_logic.FillEmptyRandomly( m_field );
   m_logic.SetEventsHandler( this );
 
-  AddWidget( boost::make_shared<GuiImage>( point_t(0, 0), boost::make_shared<Texture>("./_data/background.jpg") ) );
+  AddWidget( boost::make_shared<GuiImage>( Point(0, 0), boost::make_shared<Texture>("./_data/background.jpg") ) );
   
-  m_fieldRender.Init( point_t(330, 100), 42 );
+  m_fieldRender.Init( Point(330, 100), 42 );
 
-  m_pScore = boost::make_shared<GuiLabel>( point_t(38, 120), boost::make_shared<Font>( "./_data/gm.ttf", 25), "No moves" );
+  m_pScore = boost::make_shared<GuiLabel>( Point(38, 120), boost::make_shared<Font>( "./_data/gm.ttf", 25), "No moves" );
   AddWidget( m_pScore );
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GuiStateAutoPlay::OnLButtonDown( point_t pos )
+void GuiStateAutoPlay::OnLButtonDown( Point pos )
 {
   m_prevCellPos = m_fieldRender.GetGemPos( pos );
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GuiStateAutoPlay::OnLButtonUp( point_t pos )
+void GuiStateAutoPlay::OnLButtonUp( Point pos )
 {
   GameFieldRender::PosOpt curCellPos =  m_fieldRender.GetGemPos( pos );
 
@@ -60,18 +60,18 @@ void GuiStateAutoPlay::OnUpdate( float deltaTime )
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GuiStateAutoPlay::OnRender( SDL_Surface *pDisplay )
+void GuiStateAutoPlay::OnRender()
 {
-  RenderWidgets( pDisplay );
+  RenderWidgets();
   
-  BOOST_FOREACH( const point_t &cur, m_autoPlay.GetMarks() )
-    m_fieldRender.RenderMark( pDisplay, cur ); 
+  BOOST_FOREACH( const Point &cur, m_autoPlay.GetMarks() )
+    m_fieldRender.RenderMark( cur ); 
 
-  m_fieldRender.Render( pDisplay );
+  m_fieldRender.Render();
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GuiStateAutoPlay::OnSwap( point_t p1, point_t p2 )
+void GuiStateAutoPlay::OnSwap( Point p1, Point p2 )
 {
   ++m_movesCount;
   m_pScore->SetText( MakeString(FMT("Moves count: %d") % m_movesCount) ); 

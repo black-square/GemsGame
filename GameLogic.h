@@ -6,16 +6,16 @@
     
 struct IGameLogicEvents
 {
-  virtual void OnSwap( point_t p1, point_t p2 ) = 0;
+  virtual void OnSwap( Point p1, Point p2 ) = 0;
 };
 
 // No moves field: http://gyazo.com/1e67cc33fe5f2e7c4689984e7a4d3bfe
 class GameLogic
 {
 public:
-  typedef std::pair<point_t, point_t> TMove;
+  typedef std::pair<Point, Point> TMove;
   typedef std::vector< TMove > TMoves;
-  typedef std::vector< point_t > TPoints;
+  typedef std::vector< Point > TPoints;
 
 public:
   GameLogic();
@@ -29,7 +29,7 @@ public:
   static void FillEmptyToDown( GameField &field );
   static bool DestroyAndFillEmptyToDown( GameField &field );
 
-  void Swap( GameField &field, point_t p1, point_t p2 ) const;
+  void Swap( GameField &field, Point p1, Point p2 ) const;
   int GetRand( int from, int to ) const;
 
   void SetEventsHandler( IGameLogicEvents *pEvents = 0 ); 
@@ -42,16 +42,16 @@ private:
 
 private:
   template< class FieldProxyT >
-  static void FindAndAppendMatched( FieldProxyT field, std::vector<point_t> &toDestr );
+  static void FindAndAppendMatched( FieldProxyT field, std::vector<Point> &toDestr );
 
   template< class FieldProxyT >
   static void FindAllMovesImpl( FieldProxyT field, TMoves &moves );
 
   template< class FieldProxyT, int N >
-  static GameField::Color IsPatMatched( FieldProxyT field, point_t cur, const point_t (&pat)[N] );
+  static GameField::Color IsPatMatched( FieldProxyT field, Point cur, const Point (&pat)[N] );
 
   template< class FieldProxyT, int N >
-  static void CheckPossibleMoves( FieldProxyT field, point_t cur, GameField::Color cl, const TOneMove (&pat)[N], TMoves &moves );
+  static void CheckPossibleMoves( FieldProxyT field, Point cur, GameField::Color cl, const TOneMove (&pat)[N], TMoves &moves );
 
 private:
   mutable boost::random::mt19937 m_rng;

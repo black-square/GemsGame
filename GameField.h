@@ -22,7 +22,7 @@ public:
     return x >= 0 && x < FieldSize && y >= 0 && y < FieldSize;
   }
 
-  bool IsValid( point_t pt ) const
+  bool IsValid( Point pt ) const
   {
     return IsValid( pt.x, pt.y );
   }
@@ -40,12 +40,12 @@ public:
     m_field[x][y] = cl;
   }
   
-  Color Get( point_t pt ) const 
+  Color Get( Point pt ) const 
   { 
     return Get( pt.x, pt.y ); 
   }
   
-  void Set( point_t pt, Color cl ) 
+  void Set( Point pt, Color cl ) 
   { 
     Set( pt.x, pt.y, cl ); 
   } 

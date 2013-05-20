@@ -7,23 +7,23 @@
 class GameFieldRender: boost::noncopyable
 {
 public:
-  typedef boost::optional<point_t> PosOpt;
+  typedef boost::optional<Point> PosOpt;
 
 public:
   GameFieldRender( const GameField &field ): m_field(field), m_cellSize(0) {}
 
-  void Init( point_t pos, int cellSize );
-  void Render( SDL_Surface* pSurface ) const; 
-  void RenderMark( SDL_Surface* pSurface, point_t pt ) const;
+  void Init( Point pos, int cellSize );
+  void Render() const; 
+  void RenderMark( Point pt ) const;
 
-  PosOpt GetGemPos( point_t mousePos ) const;
+  PosOpt GetGemPos( Point mousePos ) const;
 
 private:
-  rect_t GetBoarders() const;
+  Rect GetBoarders() const;
 
 private:
   const GameField &m_field;
-  point_t m_pos;
+  Point m_pos;
   int m_cellSize;
   Texture m_gems[GameField::ColorsCount];
   Texture m_mark;

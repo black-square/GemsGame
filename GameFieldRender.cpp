@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "GameFieldRender.h"
 
-void GameFieldRender::Init( point_t pos, int cellSize )
+void GameFieldRender::Init( Point pos, int cellSize )
 {
   m_pos = pos;
   m_cellSize = cellSize;
@@ -13,7 +13,7 @@ void GameFieldRender::Init( point_t pos, int cellSize )
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GameFieldRender::Render( SDL_Surface *pSurface ) const
+void GameFieldRender::Render() const
 {
   for( int x = 0; x < GameField::FieldSize; ++x )
     for( int y = 0; y < GameField::FieldSize; ++y )
@@ -23,24 +23,24 @@ void GameFieldRender::Render( SDL_Surface *pSurface ) const
       if( cl != GameField::Empty )
       {
         ASSERT(cl >= 0 && cl < ARRAY_SIZE(m_gems) );
-        Draw( m_gems[cl], m_pos + point_t( x * m_cellSize, y * m_cellSize ) );
+        Draw( m_gems[cl], m_pos + Point( x, y ) * m_cellSize );
       }
     }
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GameFieldRender::RenderMark( SDL_Surface* pSurface, point_t pt ) const
+void GameFieldRender::RenderMark( Point pt ) const
 {
   Draw( m_mark, m_pos + pt * m_cellSize );
 }
 
-rect_t GameFieldRender::GetBoarders() const
+Rect GameFieldRender::GetBoarders() const
 {
-  return rect_t( m_pos, m_pos + point_t(m_cellSize * GameField::FieldSize, m_cellSize * GameField::FieldSize ) );
+  return Rect( m_pos, Size(m_cellSize, m_cellSize) * GameField::FieldSize );
 }
 //////////////////////////////////////////////////////////////////////////
 
-GameFieldRender::PosOpt GameFieldRender::GetGemPos( point_t mousePos ) const
+GameFieldRender::PosOpt GameFieldRender::GetGemPos( Point mousePos ) const
 {
   if( !GetBoarders().isContain(mousePos) )
     return boost::none;

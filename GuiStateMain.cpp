@@ -1,16 +1,21 @@
 #include "stdafx.h"
 #include "GuiStateMain.h"
+#include "GuiWidgets.h"
 
 GuiStateMain::GuiStateMain()
 {
-  m_texTest.Load( "./_data/button_01.png", 2 );
+  AddWidget( boost::make_shared<GuiButton>(
+    Rect( Point(20, 20), Size(200, 50) ),
+    boost::make_shared<Font>( "./_data/gm.ttf", 25),
+    boost::make_shared<Texture>( "./_data/button_01.png", 2 ),
+    "The Button!"
+  ));
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GuiStateMain::OnRender( SDL_Surface *pDisplay )
-{
-  //Draw( m_texTest, rect_t( 20, 20, 600, 100 ) );
-  Draw( m_texTest, point_t( 20, 20 ), 1 );
+void GuiStateMain::OnRender()
+{             
+  RenderWidgets();
 }
 
 

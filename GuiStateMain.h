@@ -11,10 +11,7 @@ public:
   GuiStateMain();
 
 private:
-  void OnRender( SDL_Surface *pDisplay );
-
-private:
-  Texture m_texTest; 
+  void OnRender(); 
 };
 
 

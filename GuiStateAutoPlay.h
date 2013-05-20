@@ -17,13 +17,13 @@ public:
   GuiStateAutoPlay();
 
 private:
-  void OnLButtonDown( point_t pos );
-  void OnLButtonUp( point_t pos );
+  void OnLButtonDown( Point pos );
+  void OnLButtonUp( Point pos );
   void OnKeyDown( SDLKey sym, SDLMod mod, Uint16 unicode );
   void OnUpdate( float deltaTime );
-  void OnRender( SDL_Surface *pDisplay );
+  void OnRender();
   
-  void OnSwap( point_t p1, point_t p2 );
+  void OnSwap( Point p1, Point p2 );
 
 private:
   GameField m_field;
