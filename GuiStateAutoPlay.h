@@ -14,6 +14,9 @@
 class GuiStateAutoPlay: public GuiState, private IGameLogicEvents
 {
 public:
+  typedef GuiStateAutoPlay ThisType;
+
+public:
   GuiStateAutoPlay();
 
 private:
@@ -24,6 +27,11 @@ private:
   void OnRender();
   
   void OnSwap( Point p1, Point p2 );
+
+private:
+  void ReturnToMainState();
+  void DoStep();
+  void DoAuto( float deltaTime );
 
 private:
   GameField m_field;

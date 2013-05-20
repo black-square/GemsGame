@@ -6,12 +6,15 @@
 #include "Font.h"
 
 class GuiStateMain: public GuiState
-{
+{   
+public:
+  typedef GuiStateMain ThisType;
+
 public:
   GuiStateMain();
 
 private:
-  void OnRender(); 
+  void StartAutoplayState(); 
 };
 
 
