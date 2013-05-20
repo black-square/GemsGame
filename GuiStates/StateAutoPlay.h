@@ -1,15 +1,13 @@
 #ifndef GuiStateAutoPlay_h__
 #define GuiStateAutoPlay_h__
 
-#include "GuiState.h"
-#include "Texture.h"
-#include "GameField.h"
-#include "GameFieldRender.h"
-#include "GameLogic.h"
-#include "TimeHelpers.hpp"
-#include "Font.h"
-#include "AutoPlay.h"
-#include "GuiWidgets.h"
+#include "Gui/State.h"
+#include "Logic/GameField.h"
+#include "Logic/GameLogic.h"
+#include "Graphics/GameFieldRender.h"
+#include "Core/TimeHelpers.hpp"
+#include "Logic/AutoPlay.h"
+#include "Gui/Widgets.h"
 
 class GuiStateAutoPlay: public GuiState, private IGameLogicEvents
 {

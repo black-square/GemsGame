@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "GuiStateMain.h"
-#include "GuiWidgets.h"
-#include "GuiStateAutoPlay.h"
+#include "GuiStates/StateMain.h"
+#include "Gui/Widgets.h"
+#include "GuiStates/StateAutoPlay.h"
 
 GuiStateMain::GuiStateMain()
 {

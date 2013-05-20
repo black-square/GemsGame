@@ -1,7 +1,7 @@
 #ifndef GameFieldRender_h__
 #define GameFieldRender_h__
 
-#include "GameField.h"
+#include "Logic/GameField.h"
 #include "Texture.h"
 
 class GameFieldRender: boost::noncopyable
