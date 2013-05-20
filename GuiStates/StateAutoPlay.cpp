@@ -76,7 +76,7 @@ void GuiStateAutoPlay::OnLButtonDown( Point pos )
 
 void GuiStateAutoPlay::OnLButtonUp( Point pos )
 {
-  GameFieldRender::PosOpt curCellPos =  m_fieldRender.GetGemPos( pos );
+  SimpleGameFieldRender::PosOpt curCellPos =  m_fieldRender.GetGemPos( pos );
 
   if( m_prevCellPos && curCellPos && *m_prevCellPos != *curCellPos )
     if( manhattanDistance(*m_prevCellPos, *curCellPos) == 1 )

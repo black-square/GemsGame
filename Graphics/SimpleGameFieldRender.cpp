@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "GameFieldRender.h"
+#include "SimpleGameFieldRender.h"
 
-void GameFieldRender::Init( Point pos, int cellSize )
+void SimpleGameFieldRender::Init( Point pos, int cellSize )
 {
   m_pos = pos;
   m_cellSize = cellSize;
 
   for( int i = 0; i < GameField::ColorsCount; ++i )
     m_gems[i].Load( MakeString(FMT("./_data/gem_%02d.png") % (i + 1)).c_str() );
-
+    
   m_mark.Load("./_data/mark2.png");  
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GameFieldRender::Render() const
+void SimpleGameFieldRender::Render() const
 {
   for( int x = 0; x < GameField::FieldSize; ++x )
     for( int y = 0; y < GameField::FieldSize; ++y )
@@ -29,18 +29,18 @@ void GameFieldRender::Render() const
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GameFieldRender::RenderMark( Point pt ) const
+void SimpleGameFieldRender::RenderMark( Point pt ) const
 {
   Draw( m_mark, m_pos + pt * m_cellSize );
 }
 
-Rect GameFieldRender::GetBoarders() const
+Rect SimpleGameFieldRender::GetBoarders() const
 {
   return Rect( m_pos, Size(m_cellSize, m_cellSize) * GameField::FieldSize );
 }
 //////////////////////////////////////////////////////////////////////////
 
-GameFieldRender::PosOpt GameFieldRender::GetGemPos( Point mousePos ) const
+SimpleGameFieldRender::PosOpt SimpleGameFieldRender::GetGemPos( Point mousePos ) const
 {
   if( !GetBoarders().isContain(mousePos) )
     return boost::none;

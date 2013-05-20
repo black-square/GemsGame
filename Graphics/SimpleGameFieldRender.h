@@ -1,16 +1,16 @@
-#ifndef GameFieldRender_h__
-#define GameFieldRender_h__
+#ifndef SimpleGameFieldRender_h__
+#define SimpleGameFieldRender_h__
 
 #include "Logic/GameField.h"
 #include "Texture.h"
 
-class GameFieldRender: boost::noncopyable
+class SimpleGameFieldRender: boost::noncopyable
 {
 public:
   typedef boost::optional<Point> PosOpt;
 
 public:
-  GameFieldRender( const GameField &field ): m_field(field), m_cellSize(0) {}
+  SimpleGameFieldRender( const GameField &field ): m_field(field), m_cellSize(0) {}
 
   void Init( Point pos, int cellSize );
   void Render() const; 
@@ -30,4 +30,4 @@ private:
 };
 
 
-#endif // GameFieldRender_h__
+#endif // SimpleGameFieldRender_h__

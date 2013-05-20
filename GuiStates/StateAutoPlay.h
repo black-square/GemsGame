@@ -4,7 +4,7 @@
 #include "Gui/State.h"
 #include "Logic/GameField.h"
 #include "Logic/GameLogic.h"
-#include "Graphics/GameFieldRender.h"
+#include "Graphics/SimpleGameFieldRender.h"
 #include "Core/TimeHelpers.hpp"
 #include "Logic/AutoPlay.h"
 #include "Gui/Widgets.h"
@@ -34,8 +34,8 @@ private:
 private:
   GameField m_field;
   GameLogic m_logic;
-  GameFieldRender m_fieldRender;
-  GameFieldRender::PosOpt m_prevCellPos;
+  SimpleGameFieldRender m_fieldRender;
+  SimpleGameFieldRender::PosOpt m_prevCellPos;
   AutoPlay m_autoPlay;
   SimpleTimer<float> m_autoPlayTimer;
 
