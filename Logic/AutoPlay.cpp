@@ -8,17 +8,17 @@ void AutoPlay::Reset()
 }
 //////////////////////////////////////////////////////////////////////////
 
-void AutoPlay::Update( GameField &field, GameLogic &logic )
+void AutoPlay::Update( GameLogic &logic )
 {
   switch(m_state)
   {
   case FindMatches:
-    if ( logic.FindMatches(field, m_marks) )
+    if ( logic.FindMatches(m_marks) )
       m_state = RemoveMarks;
     else
     {
       GameLogic::TMoves moves;
-      logic.FindAllMoves( field, moves );
+      logic.FindAllMoves( moves );
       m_marks.clear();
 
       BOOST_FOREACH( const GameLogic::TMoves::value_type &cur, moves )
@@ -30,24 +30,24 @@ void AutoPlay::Update( GameField &field, GameLogic &logic )
 
     break;
   case RemoveMarks:
-    logic.Remove(field, m_marks);
+    logic.Remove(m_marks);
     m_marks.clear();
     m_state = FillEmptyToDown;
     break;
   case FillEmptyToDown:
-    logic.FillEmptyToDown( field );
+    logic.FillEmptyToDown();
     m_state = FillEmptyRandomly; 
     break;
 
   case FillEmptyRandomly:
-    logic.FillEmptyRandomly( field );
+    logic.FillEmptyRandomly();
     m_state = FindMatches; 
     break;
 
   case FindAllMoves:
     {
       GameLogic::TMoves moves;
-      logic.FindAllMoves( field, moves );
+      logic.FindAllMoves( moves );
       ASSERT( !moves.empty() );
       m_nextMove = logic.GetRand( moves );
     }
@@ -60,8 +60,8 @@ void AutoPlay::Update( GameField &field, GameLogic &logic )
     break;
 
   case DoMove:  
-    logic.Swap( field, m_nextMove.first, m_nextMove.second );
-    VERIFY( logic.FindMatches(field, m_marks) );
+    logic.Swap( m_nextMove.first, m_nextMove.second );
+    VERIFY( logic.FindMatches(m_marks) );
     m_state = RemoveMarks;
     break;
   }

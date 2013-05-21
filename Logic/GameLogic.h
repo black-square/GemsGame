@@ -17,23 +17,23 @@ public:
   struct IEvents;
 
 public:
-  GameLogic();
+  explicit GameLogic( GameField &field );
 
-  void FillEmptyRandomly( GameField &field ) const;
-  static bool FindMatches( GameField &field, TPoints &matches );
-  void Remove( GameField &field, const TPoints &matches ) const;
+  void FillEmptyRandomly();
+  bool FindMatches( TPoints &matches ) const;
+  void Remove( const TPoints &matches );
 
-  static void FindAllMoves( GameField &field, TMoves &moves );
-  void FillEmptyToDown( GameField &field ) const;
-  bool DestroyAndFillEmptyToDown( GameField &field ) const;
+  void FindAllMoves( TMoves &moves ) const;
+  void FillEmptyToDown();
+  bool DestroyAndFillEmptyToDown();
 
-  void Swap( GameField &field, Point p1, Point p2 ) const;
-  void MakeMove( GameField &field, const TMove &move ) const;
+  void Swap( Point p1, Point p2 );
+  void MakeMove( const TMove &move );
 
   static bool IsPossibleMove( Point p1, Point p2 );
   const TMove &GetRand( const TMoves &moves ) const;
 
-  void SetEventsHandler( GameField &field, IEvents *pEvents = 0 ); 
+  void SetEventsHandler( IEvents *pEvents = 0 ); 
 
 private:
   class FieldProxyOrigin;
@@ -54,11 +54,12 @@ private:
   template< class FieldProxyT, int N >
   static void CheckPossibleMoves( FieldProxyT field, Point cur, GameField::Color cl, const TOneMove (&pat)[N], TMoves &moves );
 
-  static void SwapImpl( GameField &field, Point p1, Point p2 );
+  void SwapImpl( Point p1, Point p2 );
 
 private:
+  GameField &m_field;
   mutable boost::random::mt19937 m_rng;
-  IEvents *m_pEvents;
+  IEvents *m_pEvents;  
 };
 //////////////////////////////////////////////////////////////////////////
 

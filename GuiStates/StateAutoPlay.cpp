@@ -3,10 +3,10 @@
 #include "Gui/Widgets.h"
 
 GuiStateAutoPlay::GuiStateAutoPlay():
-  m_fieldRender(m_field), m_movesCount(0)
+  m_logic(m_field), m_fieldRender(m_field), m_movesCount(0)
 {
-  m_logic.FillEmptyRandomly( m_field );
-  m_logic.SetEventsHandler( m_field, this );
+  m_logic.FillEmptyRandomly();
+  m_logic.SetEventsHandler( this );
 
   AddWidget( boost::make_shared<Gui::Image>( Point(0, 0), boost::make_shared<Texture>("./_data/background.jpg") ) );
   
@@ -50,7 +50,7 @@ GuiStateAutoPlay::GuiStateAutoPlay():
 
 void GuiStateAutoPlay::DoStep()
 {
-  m_autoPlay.Update( m_field, m_logic );
+  m_autoPlay.Update( m_logic );
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -81,10 +81,10 @@ void GuiStateAutoPlay::OnLButtonUp( Point pos )
   if( m_prevCellPos && curCellPos && *m_prevCellPos != *curCellPos )
     if( GameLogic::IsPossibleMove(*m_prevCellPos, *curCellPos) )
     {
-      m_logic.Swap( m_field, *m_prevCellPos, *curCellPos );
+      m_logic.Swap( *m_prevCellPos, *curCellPos );
 
       m_autoPlay.Reset();
-      m_autoPlay.Update( m_field, m_logic );
+      m_autoPlay.Update( m_logic );
     }
 
     m_prevCellPos = boost::none; 
@@ -101,7 +101,7 @@ void GuiStateAutoPlay::OnKeyDown( SDLKey sym, SDLMod mod, Uint16 unicode )
 void GuiStateAutoPlay::OnUpdate( float deltaTime )
 {
   if( m_autoPlayTimer.TickWithRestart(deltaTime) )
-    m_autoPlay.Update( m_field, m_logic ); 
+    m_autoPlay.Update( m_logic ); 
 }
 //////////////////////////////////////////////////////////////////////////
 

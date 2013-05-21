@@ -1,13 +1,14 @@
 #include "stdafx.h"
 #include "StateMainGame.h"
 
-GuiStateMainGame::GuiStateMainGame()
+GuiStateMainGame::GuiStateMainGame():
+  m_logic(m_field)
 {
   m_fieldRender.Init( Point(330, 100), 42 );
  
-  m_logic.FillEmptyRandomly( m_field );
-  m_logic.DestroyAndFillEmptyToDown( m_field );
-  m_logic.SetEventsHandler( m_field, &m_fieldRender );
+  m_logic.FillEmptyRandomly();
+  m_logic.DestroyAndFillEmptyToDown();
+  m_logic.SetEventsHandler( &m_fieldRender );
 
   m_pTexBack = boost::make_shared<Texture>("./_data/background.jpg");
 
@@ -57,7 +58,7 @@ void GuiStateMainGame::OnLButtonUp( Point pos )
   m_fieldRender.LButtonUp( pos, move );
 
   if( move.first != move.second )
-    m_logic.MakeMove(m_field, move);
+    m_logic.MakeMove(move);
 }
 //////////////////////////////////////////////////////////////////////////\
 

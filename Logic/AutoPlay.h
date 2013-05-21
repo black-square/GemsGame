@@ -10,7 +10,7 @@ public:
   AutoPlay() {  Reset(); }
 
   void Reset();
-  void Update( GameField &field, GameLogic &logic );
+  void Update( GameLogic &logic );
   const GameLogic::TPoints &GetMarks() const { return m_marks; }
 
 private:
