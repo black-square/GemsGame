@@ -25,15 +25,17 @@ public:
 
   void FindAllMoves( TMoves &moves ) const;
   void FillEmptyToDown();
-  bool DestroyAndFillEmptyToDown();
+  bool FindRemoveFillOnce();
+  void FindRemoveFillCompleate();
 
   void Swap( Point p1, Point p2 );
-  void MakeMove( const TMove &move );
+  bool MakeMove( const TMove &move );
 
   static bool IsPossibleMove( Point p1, Point p2 );
   const TMove &GetRand( const TMoves &moves ) const;
 
   void SetEventsHandler( IEvents *pEvents = 0 ); 
+  void RecreateField();
 
 private:
   class FieldProxyOrigin;

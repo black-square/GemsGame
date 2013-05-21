@@ -23,6 +23,8 @@ void GameFieldRender::Init( Point pos, int cellSize )
 
   for( int i = 0; i < GameField::ColorsCount; ++i )
     m_texGems[i].Load( MakeString(FMT("./_data/gem_%02d.png") % (i + 1)).c_str() ); 
+
+  m_texMark.Load("./_data/mark2.png");
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -231,5 +233,11 @@ void GameFieldRender::MouseMove( Point pos )
     if( const TGemPtr &pPair = Gem( posField ) )
       pPair->UpdateDragPoint( fieldToScreen(m_draggedPos) );       
   }
+}
+//////////////////////////////////////////////////////////////////////////
+
+void GameFieldRender::RenderMark( Point pt ) const
+{
+  Draw( m_texMark, Round( fieldToScreen(pt) ) );
 }
 

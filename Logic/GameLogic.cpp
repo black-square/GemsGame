@@ -97,22 +97,27 @@ void GameLogic::FillEmptyToDown()
 }
 //////////////////////////////////////////////////////////////////////////
 
-bool GameLogic::DestroyAndFillEmptyToDown()
+bool GameLogic::FindRemoveFillOnce()
 {
   TPoints matches;
 
   if( !FindMatches(matches) )
     return false;
 
-  do 
+  Remove( matches );
+  FillEmptyToDown();
+  FillEmptyRandomly(); 
+
+  return true;
+}
+//////////////////////////////////////////////////////////////////////////
+
+void GameLogic::FindRemoveFillCompleate()
+{
+  while( FindRemoveFillOnce() ) 
   {
-    Remove( matches );
-    FillEmptyToDown();
-    FillEmptyRandomly();  
-  } 
-  while( FindMatches(matches) ); 
-  
-  return true; 
+    //Nothing
+  }
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -375,7 +380,7 @@ void GameLogic::Swap( Point p1, Point p2 )
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GameLogic::MakeMove( const TMove &move )
+bool GameLogic::MakeMove( const TMove &move )
 {
   ASSERT( IsPossibleMove( move.first, move.second) );
   SwapImpl( move.first, move.second );
@@ -385,18 +390,30 @@ void GameLogic::MakeMove( const TMove &move )
   if( !FindMatches(matches) )
   {
     SwapImpl( move.first, move.second );
-    return;
+    return false;
   }
 
    m_pEvents->OnGemSwap( move.first, move.second );
      
-   do 
-   {
-     Remove( matches );
-     FillEmptyToDown();
-     FillEmptyRandomly();  
-   } 
-   while( FindMatches(matches) );  
+   Remove( matches );
+   FillEmptyToDown();
+   FillEmptyRandomly(); 
+
+   return true;
+}
+//////////////////////////////////////////////////////////////////////////
+
+void GameLogic::RecreateField()
+{
+  for( int x = 0; x < GameField::FieldSize; ++x )
+    for ( int y = 0; y < GameField::FieldSize; ++y )
+      if( m_field.Get(x, y) != GameField::Empty )
+      { 
+        m_field.Set( x, y, GameField::Empty );
+        m_pEvents->OnGemDestroyed( Point(x, y) );
+      }
+
+  FillEmptyRandomly();
 }
 
 

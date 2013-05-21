@@ -6,6 +6,7 @@
 #include "Logic/GameLogic.h"
 #include "Gui/Widgets.h"
 #include "Graphics/GameFieldRender.h"
+#include "Core/TimeHelpers.hpp"
 
 class GuiStateMainGame: public Gui::State
 {
@@ -30,7 +31,10 @@ private:
   GameLogic m_logic;
   GameFieldRender m_fieldRender;
   Texture::TPtr m_pTexBack;
-
+  GameLogic::TMove m_hint;
+  SimpleTimer<float> m_timerCheckMatches;
+  SimpleTimer<float> m_timerShowHint;
+  SimpleTimer<float> m_timerHintShowed;
 };
 
 #endif // StateMainGame_h__
