@@ -89,5 +89,12 @@ void GameFieldRender::GemObj::UpdateDragPoint( PointF destPos )
   
   m_springState.UpdateDestPos( destPos );
 }
+//////////////////////////////////////////////////////////////////////////
+
+void GameFieldRender::GemObj::SetPos( PointF curPos )
+{
+  m_curPos = curPos;
+  m_pCurState = m_defaultState.Start();  
+}
 
 

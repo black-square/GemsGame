@@ -55,6 +55,7 @@ public:
   void Update( float deltaTime );
   void FallTo( PointF destPos, float totalTime );
   void UpdateDragPoint( PointF destPos );
+  void SetPos( PointF curPos );
 
 private:
   PointF m_curPos;

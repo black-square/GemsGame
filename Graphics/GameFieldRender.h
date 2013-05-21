@@ -30,7 +30,7 @@ private:
 private:
   void OnGemAdded( Point p, GameField::Color cl );
   void OnGemSwap( Point p1, Point p2 );
-  void OnGemMove( Point p1, Point p2 );
+  void OnGemMove( Point from, Point to );
   void OnGemDestroyed( Point p );
 
   static bool IsValid( Point p ) { return GameField::IsValid(p); }
@@ -45,12 +45,14 @@ private:
   static Point Round( PointF p );
   void BringNeighborsBack( Point p );
   Point ClampToSuitableMove( Point from, Point to ) const;
+  void ResetFlyingGemsCount();
   
 private:
   Point m_pos;
   int m_cellSize;
   Texture m_texGems[GameField::ColorsCount];
   TGemPtr m_gems[GameField::FieldSize][GameField::FieldSize];
+  int m_flyingGemsCount[GameField::FieldSize];
   TGemWeakPtr m_pGemDragged;
   Point m_draggedPos;
   mutable boost::random::mt19937 m_rng;

@@ -57,16 +57,16 @@ void GameLogic::FillEmptyToDown()
 
       for( int y = GameField::FieldSize - 1; y > 0; --y )
       {
-        const Point cur(x, y);
-        const Point next(x, y - 1);
+        const Point prev(x, y - 1);
+        const Point cur(x, y);     
         
-        if( m_field.Get(cur) == GameField::Empty && m_field.Get(next) != GameField::Empty )
+        if( m_field.Get(cur) == GameField::Empty && m_field.Get(prev) != GameField::Empty )
         {
-          m_field.Set( cur, m_field.Get(next) );
-          m_field.Set( next, GameField::Empty );
+          m_field.Set( cur, m_field.Get(prev) );
+          m_field.Set( prev, GameField::Empty );
           hasMoved = true;
 
-          m_pEvents->OnGemMove( next, cur );
+          m_pEvents->OnGemMove( prev, cur );
         }
       }
     } 

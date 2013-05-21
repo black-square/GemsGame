@@ -69,7 +69,7 @@ struct GameLogic::IEvents
 
   virtual void OnGemAdded( Point p, GameField::Color cl ) {}
   virtual void OnGemSwap( Point p1, Point p2 ) {}
-  virtual void OnGemMove( Point p1, Point p2 ) {}
+  virtual void OnGemMove( Point from, Point to ) {}
   virtual void OnGemDestroyed( Point p ) {}
 };
 

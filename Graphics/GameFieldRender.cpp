@@ -8,7 +8,7 @@
 GameFieldRender::GameFieldRender() : 
   m_cellSize(0), m_rng( static_cast<unsigned int>(std::time(0)) )
 {
-
+  ResetFlyingGemsCount();
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -45,6 +45,8 @@ void GameFieldRender::Update( float deltaTime )
       if( pGem )
         pGem->Update( deltaTime );
     }
+  
+  ResetFlyingGemsCount();
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -92,6 +94,12 @@ GameFieldRender::TGemPtr &GameFieldRender::Gem( Point p )
 }
 //////////////////////////////////////////////////////////////////////////
 
+void GameFieldRender::ResetFlyingGemsCount()  
+{
+  std::fill_n( m_flyingGemsCount, ARRAY_SIZE(m_flyingGemsCount), 0 );
+}
+//////////////////////////////////////////////////////////////////////////
+
 void GameFieldRender::OnGemAdded( Point p, GameField::Color cl )
 {
   ASSERT( !Gem(p) );
@@ -100,31 +108,38 @@ void GameFieldRender::OnGemAdded( Point p, GameField::Color cl )
   PointF startPos( fieldToScreen(Point(p.x, -1)) );
                                               
   const float maxPos = GameField::FieldSize - 1.0f;
-  const float posYFactor = maxPos - p.y;
+  const int posYFactor = m_flyingGemsCount[p.x]++;
   const float posXFactor = 1 - p.x / maxPos;
-  const float posFactor = posYFactor + 3.f * posXFactor;
+  const float posFactor = posYFactor + 0.f + 3.f * posXFactor;
 
   startPos.y -= 50 * posFactor; 
 
   TGemPtr pGem = boost::make_shared<GemObj>( startPos, m_texGems[cl] );
   Gem(p) = pGem;
 
+  const float dist = (fieldToScreen(p) - startPos).y;
+
+  //const float baseTime = SquaredWithBounceStepFactor<float>::CalcNewTimeWithSameAccel( 50.f * GameField::FieldSize + 3.f * posXFactor, 1.f, dist );
+
   pGem->FallTo( fieldToScreen(p), 1 + 0.06f * posFactor );
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GameFieldRender::OnGemMove( Point p1, Point p2 )
+void GameFieldRender::OnGemMove( Point from, Point to )
 {
-  TGemPtr &pGem1 = Gem(p1);
-  TGemPtr &pGem2 = Gem(p2);
+  TGemPtr &pGem1 = Gem(from);
+  TGemPtr &pGem2 = Gem(to);
   
   ASSERT( pGem1 );
   ASSERT( !pGem2 );
 
   pGem2 = pGem1;
   pGem1.reset();
+
+  const float dist = fieldToScreen(to - from).y;
   
-  pGem2->UpdateDragPoint( fieldToScreen(p2) );
+  //pGem2->FallTo( fieldToScreen(p2), std::sqrt(dist/300.f) );
+  pGem2->SetPos( fieldToScreen(to) );
 }
 //////////////////////////////////////////////////////////////////////////
 
