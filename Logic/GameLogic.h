@@ -29,6 +29,7 @@ public:
   bool DestroyAndFillEmptyToDown( GameField &field ) const;
 
   void Swap( GameField &field, Point p1, Point p2 ) const;
+  static bool IsPossibleMove( Point p1, Point p2 );
   const TMove &GetRand( const TMoves &moves ) const;
 
   void SetEventsHandler( IEvents *pEvents = 0 ); 

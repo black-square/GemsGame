@@ -79,7 +79,7 @@ void GuiStateAutoPlay::OnLButtonUp( Point pos )
   SimpleGameFieldRender::PosOpt curCellPos =  m_fieldRender.GetGemPos( pos );
 
   if( m_prevCellPos && curCellPos && *m_prevCellPos != *curCellPos )
-    if( manhattanDistance(*m_prevCellPos, *curCellPos) == 1 )
+    if( GameLogic::IsPossibleMove(*m_prevCellPos, *curCellPos) )
     {
       m_logic.Swap( m_field, *m_prevCellPos, *curCellPos );
 

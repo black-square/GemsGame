@@ -7,21 +7,25 @@
 class GameFieldRender: boost::noncopyable, public GameLogic::IEvents
 {
 public:
-  typedef boost::optional<Point> PosOpt;
-
-public:
   GameFieldRender();
 
   void Init( Point pos, int cellSize );
   void Render() const; 
   void Update( float deltaTime );
 
-  PosOpt GetGemPos( Point mousePos ) const;
+  void LButtonDown( Point pos );
+  void LButtonUp( Point pos );
+  void MouseMove( Point pos );
 
 private:
   typedef PointBase<float> PointF;
   class GemObj;
-  typedef boost::shared_ptr<GemObj> TGemPtr; 
+  struct IGemState;
+  class DefaultState;
+  class FallState;
+  class SpringState;
+  typedef boost::shared_ptr<GemObj> TGemPtr;
+  typedef boost::weak_ptr<GemObj> TGemWeakPtr; 
 
 private:
   void OnGemAdded( Point p, GameField::Color cl );
@@ -29,6 +33,7 @@ private:
   void OnGemMove( Point p1, Point p2 );
   void OnGemDestroyed( Point p );
 
+  static bool IsValid( Point p ) { return GameField::IsValid(p); }
   const TGemPtr &Gem( Point p ) const;
   TGemPtr &Gem( Point p );
  
@@ -36,13 +41,17 @@ private:
   Rect GetBoarders() const;
   PointF fieldToScreen( Point p ) const;
   Point screenToField( PointF p ) const;
+  Point screenToField( Point p ) const;
   static Point Round( PointF p );
+  void BringNeighborsBack( Point p );
 
 private:
   Point m_pos;
   int m_cellSize;
   Texture m_texGems[GameField::ColorsCount];
   TGemPtr m_gems[GameField::FieldSize][GameField::FieldSize];
+  TGemWeakPtr m_pGemDragged;
+  Point m_draggedPos;
   mutable boost::random::mt19937 m_rng;
 };
 

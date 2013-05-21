@@ -22,7 +22,6 @@ GuiStateMain::GuiStateMain()
     BIND_THIS(StartAutoplayState),
     "Autoplay Test"
   ));
-
 }
 //////////////////////////////////////////////////////////////////////////
 

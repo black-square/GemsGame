@@ -64,35 +64,28 @@ Point GameFieldRender::screenToField( PointF p ) const
 }
 //////////////////////////////////////////////////////////////////////////
 
+Point GameFieldRender::screenToField( Point p ) const
+{
+  return (p - m_pos) / m_cellSize;
+}
+//////////////////////////////////////////////////////////////////////////
+
 Point GameFieldRender::Round( PointF p )
 {
   return Point( p + PointF(0.5f, 0.5f) );
 }
 //////////////////////////////////////////////////////////////////////////
 
-GameFieldRender::PosOpt GameFieldRender::GetGemPos( Point mousePos ) const
-{
-  if( !GetBoarders().isContain(mousePos) )
-    return boost::none;
-
-  return (mousePos - m_pos) / m_cellSize;
-}
-//////////////////////////////////////////////////////////////////////////
-
 const GameFieldRender::TGemPtr &GameFieldRender::Gem( Point p ) const
 {
-  ASSERT( p.x >= 0 && p.x < GameField::FieldSize );
-  ASSERT( p.y >= 0 && p.y < GameField::FieldSize );
-
+  ASSERT( IsValid(p) );
   return m_gems[p.x][p.y];
 }
 //////////////////////////////////////////////////////////////////////////
 
 GameFieldRender::TGemPtr &GameFieldRender::Gem( Point p )
 {
-  ASSERT( p.x >= 0 && p.x < GameField::FieldSize );
-  ASSERT( p.y >= 0 && p.y < GameField::FieldSize );
-
+  ASSERT( IsValid(p) );
   return m_gems[p.x][p.y];
 }
 //////////////////////////////////////////////////////////////////////////
@@ -100,8 +93,7 @@ GameFieldRender::TGemPtr &GameFieldRender::Gem( Point p )
 void GameFieldRender::OnGemAdded( Point p, GameField::Color cl )
 {
   ASSERT( !Gem(p) );
-
-  ASSERT(cl >= 0 && cl < ARRAY_SIZE(m_texGems) );
+  ASSERT( GameField::IsValid(cl) );
 
   PointF startPos( fieldToScreen(Point(p.x, -1)) );
                                               
@@ -115,7 +107,7 @@ void GameFieldRender::OnGemAdded( Point p, GameField::Color cl )
   TGemPtr pGem = boost::make_shared<GemObj>( startPos, m_texGems[cl] );
   Gem(p) = pGem;
 
-  pGem->MoveTo( fieldToScreen(p), 1 + 0.06f * posFactor );
+  pGem->FallTo( fieldToScreen(p), 1 + 0.06f * posFactor );
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -134,5 +126,66 @@ void GameFieldRender::OnGemMove( Point p1, Point p2 )
 void GameFieldRender::OnGemDestroyed( Point p )
 {
 
+}
+//////////////////////////////////////////////////////////////////////////
+
+void GameFieldRender::LButtonDown( Point pos )
+{
+  if( !GetBoarders().isContain(pos) )
+    return;
+
+  const Point posField = screenToField(pos);
+
+  if( const TGemPtr &p = Gem( posField ) )
+  {
+    m_pGemDragged = p;
+    m_draggedPos = posField;
+  }
+}
+//////////////////////////////////////////////////////////////////////////
+
+void GameFieldRender::LButtonUp( Point pos )
+{
+  if( !m_pGemDragged.expired() )
+  {
+    BringNeighborsBack( m_draggedPos );
+    m_pGemDragged.reset();
+  }
+}
+//////////////////////////////////////////////////////////////////////////
+
+void GameFieldRender::BringNeighborsBack( Point p )
+{
+  static const Point rgNeighbors[] = { Point(0, 0), Point(-1, 0), Point(0, -1), Point(+1, 0), Point(0, +1) };
+
+  BOOST_FOREACH( const Point &pt, rgNeighbors )
+  {
+    const Point pos = p + pt;
+
+    if( IsValid(pos) )
+      if( const TGemPtr &pPair = Gem( pos ) )
+        pPair->UpdateDragPoint( fieldToScreen(pos) );
+  }  
+}
+//////////////////////////////////////////////////////////////////////////
+
+void GameFieldRender::MouseMove( Point pos )
+{
+  if( !GetBoarders().isContain(pos) )
+    return;
+
+  const TGemPtr &p = m_pGemDragged.lock();
+  const Point posField = screenToField(pos);
+  const bool canMove = m_draggedPos == posField || GameLogic::IsPossibleMove(m_draggedPos, posField);
+
+  if( p && canMove )
+  {
+    BringNeighborsBack( m_draggedPos );
+    
+    p->UpdateDragPoint( fieldToScreen(posField) );  
+    
+    if( const TGemPtr &pPair = Gem( posField ) )
+      pPair->UpdateDragPoint( fieldToScreen(m_draggedPos) );       
+  }
 }
 

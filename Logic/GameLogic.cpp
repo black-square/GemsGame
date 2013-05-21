@@ -328,6 +328,14 @@ const GameLogic::TMove &GameLogic::GetRand( const TMoves &moves ) const
 }
 //////////////////////////////////////////////////////////////////////////
 
+bool GameLogic::IsPossibleMove( Point p1, Point p2 )
+{
+  ASSERT( GameField::IsValid(p1) );
+  ASSERT( GameField::IsValid(p2) );
+  return manhattanDistance(p1, p2) == 1;
+}
+//////////////////////////////////////////////////////////////////////////
+
 void GameLogic::Swap( GameField &field, Point p1, Point p2 ) const 
 {
   const GameField::Color cl = field.Get( p1 );

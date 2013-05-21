@@ -17,26 +17,31 @@ public:
 
   void Clear();
   
-  bool IsValid( int x, int y ) const
+  static bool IsValid( int x, int y )
   {
     return x >= 0 && x < FieldSize && y >= 0 && y < FieldSize;
   }
 
-  bool IsValid( Point pt ) const
+  static bool IsValid( Point pt )
   {
     return IsValid( pt.x, pt.y );
   }
 
+  static bool IsValid( Color cl )
+  {
+    return cl >= Empty && cl < ColorsCount;
+  }
+
   Color Get( int x, int y ) const
   {
-    ASSERT( x >= 0 && x < FieldSize && y >= 0 && y < FieldSize );
+    ASSERT( IsValid(x, y) );
     return m_field[x][y];
   }
   
   void Set( int x, int y, Color cl )
   {
-    ASSERT( x >= 0 && x < FieldSize && y >= 0 && y < FieldSize );
-    ASSERT( cl >= Empty && cl < ColorsCount );
+    ASSERT( IsValid(x, y) );
+    ASSERT( IsValid(cl) );
     m_field[x][y] = cl;
   }
   

@@ -17,12 +17,13 @@ public:
 
 private:
   void OnRender() const;
+  void OnUpdate( float deltaTime );
+  void OnLButtonDown( Point pos );
+  void OnLButtonUp( Point pos );
+  void OnMouseMove( Point pos );
 
 private:
   void ReturnToMainState();
-
-  virtual void OnUpdate( float deltaTime );
-
 
 private:
   GameField m_field;

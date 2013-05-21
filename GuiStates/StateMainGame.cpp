@@ -42,3 +42,21 @@ void GuiStateMainGame::OnUpdate( float deltaTime )
 {
   m_fieldRender.Update( deltaTime );
 }
+//////////////////////////////////////////////////////////////////////////
+
+void GuiStateMainGame::OnLButtonDown( Point pos )
+{
+  m_fieldRender.LButtonDown( pos );
+}
+//////////////////////////////////////////////////////////////////////////
+
+void GuiStateMainGame::OnLButtonUp( Point pos )
+{
+  m_fieldRender.LButtonUp( pos );
+}
+//////////////////////////////////////////////////////////////////////////\
+
+void GuiStateMainGame::OnMouseMove( Point pos )
+{
+  m_fieldRender.MouseMove( pos );
+}
