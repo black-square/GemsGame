@@ -1,14 +1,18 @@
 #include "stdafx.h"
 #include "GameFieldRender.h"
 #include "GameFieldRenderGemObj.h"
-#include <boost/random/uniform_real_distribution.hpp>
 
 //////////////////////////////////////////////////////////////////////////
 
 GameFieldRender::GameFieldRender() : 
-  m_cellSize(0), m_rng( static_cast<unsigned int>(std::time(0)) )
+  m_cellSize(0), m_pFallingGemsManager( new FallingGemsManager() )
 {
-  m_gemFallingDelay = 0;
+  //Nothing
+}
+//////////////////////////////////////////////////////////////////////////
+GameFieldRender::~GameFieldRender()
+{
+  //Nothing
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -46,7 +50,7 @@ void GameFieldRender::Update( float deltaTime )
         pGem->Update( deltaTime );
     }
   
-  m_gemFallingDelay = 0;
+  m_pFallingGemsManager->Reset();
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -104,11 +108,7 @@ void GameFieldRender::OnGemAdded( Point p, GameField::Color cl )
   TGemPtr pGem = boost::make_shared<GemObj>( startPos, m_texGems[cl] );
   Gem(p) = pGem;
 
-  const float fieldSize = GameField::FieldSize - 1.f;
-  const float firstCellTime = 0.2f;
-  const float accel = FallStateAccel::CalcAccel( float(m_cellSize), firstCellTime );
-
-  pGem->FallTo( fieldToScreen(p), accel,  firstCellTime * (fieldSize - p.y) + (fieldSize - p.x) * 0.06f );
+  pGem->FallTo( fieldToScreen(p), m_pFallingGemsManager->NextParamsOutOfField(Point(p.x, 0), m_cellSize) );
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -122,11 +122,8 @@ void GameFieldRender::OnGemMove( Point from, Point to )
 
   pGem2 = pGem1;
   pGem1.reset();
-
-  const float dist = fieldToScreen(to - from).y;
   
-  //pGem2->FallTo( fieldToScreen(p2), std::sqrt(dist/300.f) );
-  pGem2->SetPos( fieldToScreen(to) );
+  pGem2->FallTo( fieldToScreen(to), m_pFallingGemsManager->NextParamInField(from, m_cellSize) );
 }
 //////////////////////////////////////////////////////////////////////////
 

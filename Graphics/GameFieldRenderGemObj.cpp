@@ -3,38 +3,6 @@
 
 //////////////////////////////////////////////////////////////////////////
 
-const SquaredWithBounceStepFactor<float> GameFieldRender::FallState::lerpFactor( 0.8f, 0.93f );
-//////////////////////////////////////////////////////////////////////////
-
-GameFieldRender::FallState *GameFieldRender::FallState::Start( PointF startPos, PointF destPos, float totalTime )
-{
-  m_startPos = startPos;
-  m_destPos = destPos;
-  m_moveTime = 0;
-  m_totalTime = totalTime;
-
-  return this;
-}
-//////////////////////////////////////////////////////////////////////////
-
-bool GameFieldRender::FallState::OnUpdate( float deltaTime, PointF &curPos )
-{
-  if( curPos == m_destPos )
-    return false;
-
-  m_moveTime += deltaTime;
-
-  if( m_moveTime >= m_totalTime )
-  {
-    curPos = m_destPos;
-    return false;  
-  }
-
-  curPos = Lerp( m_startPos, m_destPos, lerpFactor(m_moveTime / m_totalTime) );
-  return true;
-}
-//////////////////////////////////////////////////////////////////////////
-
 GameFieldRender::SpringState *GameFieldRender::SpringState::Start( PointF destPos )
 {
   m_destPos = destPos;
@@ -56,7 +24,42 @@ void GameFieldRender::SpringState::UpdateDestPos( PointF destPos )
 }
 //////////////////////////////////////////////////////////////////////////
 
-GameFieldRender::FallStateAccel *GameFieldRender::FallStateAccel::Start( PointF startPos, PointF destPos, float accel, float delay )
+float GameFieldRender::FallingGemsManager::FromPointDelay( Point from )
+{
+  const float fieldSize = GameField::FieldSize - 1.f;
+  return MinDelayCoeff() * ( fieldSize - from.y - from.x );
+}
+//////////////////////////////////////////////////////////////////////////
+
+GameFieldRender::FallParams GameFieldRender::FallingGemsManager::NextParamsOutOfField( Point from, int cellSize )
+{ 
+  FallParams params;
+
+  params.accel = FallState::CalcAccel( float(cellSize), GetFirstCellTime() );
+  params.delay = GetFirstCellTime() * m_flyingGemsCount[from.x]++ + FromPointDelay( from );
+
+  return params;
+}
+//////////////////////////////////////////////////////////////////////////
+
+GameFieldRender::FallParams GameFieldRender::FallingGemsManager::NextParamInField( Point from, int cellSize )
+{
+  FallParams params;
+
+  params.accel = FallState::CalcAccel( float(cellSize), GetFirstCellTime() );
+  params.delay = FromPointDelay( from );
+
+  return params;
+}
+//////////////////////////////////////////////////////////////////////////
+
+void GameFieldRender::FallingGemsManager::Reset()
+{
+  std::fill_n( m_flyingGemsCount, ARRAY_SIZE(m_flyingGemsCount), 0 );
+}
+//////////////////////////////////////////////////////////////////////////
+
+GameFieldRender::FallState *GameFieldRender::FallState::Start( PointF startPos, PointF destPos, float accel, float delay )
 {
   const float elasticityCoefficient = 0.3f;
   const float dist = destPos.y - startPos.y;
@@ -67,28 +70,28 @@ GameFieldRender::FallStateAccel *GameFieldRender::FallStateAccel::Start( PointF 
   m_destPos = destPos;
   m_accel = accel;
   m_delay = delay;
-  m_pState = m_delay > 0 ? &FallStateAccel::OnUpdateDelay : &FallStateAccel::OnUpdateBeforeBounce;
+  m_pState = m_delay > 0 ? &FallState::OnUpdateDelay : &FallState::OnUpdateBeforeBounce;
   m_speedAfterBounce = m_accel * m_totalTime * elasticityCoefficient;
    
   return this;   
 }
 //////////////////////////////////////////////////////////////////////////
 
-bool GameFieldRender::FallStateAccel::OnUpdateDelay( float deltaTime, PointF &curPos )
+bool GameFieldRender::FallState::OnUpdateDelay( float deltaTime, PointF &curPos )
 {
   m_delay -= deltaTime;
 
   if( m_delay <= 0 )
   {
     m_moveTime += -m_delay;
-    m_pState = &FallStateAccel::OnUpdateBeforeBounce; 
+    m_pState = &FallState::OnUpdateBeforeBounce; 
   }
 
   return true;
 }
 //////////////////////////////////////////////////////////////////////////
 
-bool GameFieldRender::FallStateAccel::OnUpdateBeforeBounce( float deltaTime, PointF &curPos )
+bool GameFieldRender::FallState::OnUpdateBeforeBounce( float deltaTime, PointF &curPos )
 {  
   m_moveTime += deltaTime;
 
@@ -100,14 +103,14 @@ bool GameFieldRender::FallStateAccel::OnUpdateBeforeBounce( float deltaTime, Poi
   {   
     m_moveTime -= m_totalTime;
     m_totalTime = m_speedAfterBounce / m_accel; //Maple: solve( {v*t = a*t^2}, {t} );
-    m_pState = &FallStateAccel::OnUpdateAfterBounce;
+    m_pState = &FallState::OnUpdateAfterBounce;
   }  
 
   return true;
 }
 //////////////////////////////////////////////////////////////////////////
 
-bool GameFieldRender::FallStateAccel::OnUpdateAfterBounce( float deltaTime, PointF &curPos )
+bool GameFieldRender::FallState::OnUpdateAfterBounce( float deltaTime, PointF &curPos )
 {
   m_moveTime += deltaTime;
   
@@ -124,13 +127,13 @@ bool GameFieldRender::FallStateAccel::OnUpdateAfterBounce( float deltaTime, Poin
 }
 //////////////////////////////////////////////////////////////////////////
 
-bool GameFieldRender::FallStateAccel::OnUpdate( float deltaTime, PointF &curPos )
+bool GameFieldRender::FallState::OnUpdate( float deltaTime, PointF &curPos )
 {
   return (this->*m_pState)( deltaTime, curPos );
 }
 //////////////////////////////////////////////////////////////////////////
 
-float GameFieldRender::FallStateAccel::CalcAccel( float distance, float time )
+float GameFieldRender::FallState::CalcAccel( float distance, float time )
 {
   return distance / ( time * time );   
 }
@@ -156,9 +159,9 @@ void GameFieldRender::GemObj::Update( float deltaTime )
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GameFieldRender::GemObj::FallTo( PointF destPos, float accel, float delay )
+void GameFieldRender::GemObj::FallTo( PointF destPos, const FallParams &fallParams )
 {
-  m_pCurState = m_fallingState.Start( m_curPos, destPos, accel, delay );
+  m_pCurState = m_fallingState.Start( m_curPos, destPos, fallParams.accel, fallParams.delay );
 }
 //////////////////////////////////////////////////////////////////////////
 

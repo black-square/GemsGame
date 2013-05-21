@@ -4,10 +4,13 @@
 #include "Logic/GameLogic.h"
 #include "Texture.h"
 
+//////////////////////////////////////////////////////////////////////////
+
 class GameFieldRender: boost::noncopyable, public GameLogic::IEvents
 {
 public:
   GameFieldRender();
+  ~GameFieldRender();
 
   void Init( Point pos, int cellSize );
   void Render() const; 
@@ -23,12 +26,13 @@ private:
   struct IGemState;
   class DefaultState;
   class FallState;
-  class FallStateAccel;
   class SpringState;
+  struct FallParams;
+  class FallingGemsManager;
   typedef boost::shared_ptr<GemObj> TGemPtr;
-  typedef boost::weak_ptr<GemObj> TGemWeakPtr; 
+  typedef boost::weak_ptr<GemObj> TGemWeakPtr;
 
-private:
+private:  
   void OnGemAdded( Point p, GameField::Color cl );
   void OnGemSwap( Point p1, Point p2 );
   void OnGemMove( Point from, Point to );
@@ -52,10 +56,9 @@ private:
   int m_cellSize;
   Texture m_texGems[GameField::ColorsCount];
   TGemPtr m_gems[GameField::FieldSize][GameField::FieldSize];
-  float m_gemFallingDelay;
   TGemWeakPtr m_pGemDragged;
   Point m_draggedPos;
-  mutable boost::random::mt19937 m_rng;
+  const boost::scoped_ptr<FallingGemsManager> m_pFallingGemsManager;
 };
 
 

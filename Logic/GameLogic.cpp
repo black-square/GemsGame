@@ -45,6 +45,26 @@ void GameLogic::FillEmptyRandomly()
 }
 //////////////////////////////////////////////////////////////////////////
  
+bool GameLogic::CheckFillEmptyToDown() const
+{
+  for( int x = 0; x < GameField::FieldSize; ++x )
+  {
+    int y = 0;
+
+    while( y < GameField::FieldSize && m_field.Get(x, y) == GameField::Empty )
+      ++y;
+
+    while( y < GameField::FieldSize && m_field.Get(x, y) != GameField::Empty )
+      ++y;
+
+    if( y != GameField::FieldSize )
+      return false;
+  }
+
+  return true;
+}
+//////////////////////////////////////////////////////////////////////////
+
 void GameLogic::FillEmptyToDown()
 {
   for( int x = 0; x < GameField::FieldSize; ++x )
@@ -57,21 +77,23 @@ void GameLogic::FillEmptyToDown()
 
       for( int y = GameField::FieldSize - 1; y > 0; --y )
       {
-        const Point prev(x, y - 1);
-        const Point cur(x, y);     
-        
-        if( m_field.Get(cur) == GameField::Empty && m_field.Get(prev) != GameField::Empty )
+        const Point upper(x, y - 1);
+        const Point cur(x, y);      
+
+        if( m_field.Get(cur) == GameField::Empty && m_field.Get(upper) != GameField::Empty )
         {
-          m_field.Set( cur, m_field.Get(prev) );
-          m_field.Set( prev, GameField::Empty );
+          m_field.Set( cur, m_field.Get(upper) );
+          m_field.Set( upper, GameField::Empty );
           hasMoved = true;
 
-          m_pEvents->OnGemMove( prev, cur );
+          m_pEvents->OnGemMove( upper, cur );
         }
       }
     } 
     while (hasMoved);
   }
+
+  ASSERT( CheckFillEmptyToDown() );
 }
 //////////////////////////////////////////////////////////////////////////
 

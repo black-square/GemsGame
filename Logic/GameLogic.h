@@ -55,6 +55,7 @@ private:
   static void CheckPossibleMoves( FieldProxyT field, Point cur, GameField::Color cl, const TOneMove (&pat)[N], TMoves &moves );
 
   void SwapImpl( Point p1, Point p2 );
+  bool CheckFillEmptyToDown() const;
 
 private:
   GameField &m_field;
