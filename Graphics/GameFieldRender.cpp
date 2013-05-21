@@ -8,7 +8,7 @@
 GameFieldRender::GameFieldRender() : 
   m_cellSize(0), m_rng( static_cast<unsigned int>(std::time(0)) )
 {
-  ResetFlyingGemsCount();
+  m_gemFallingDelay = 0;
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -46,7 +46,7 @@ void GameFieldRender::Update( float deltaTime )
         pGem->Update( deltaTime );
     }
   
-  ResetFlyingGemsCount();
+  m_gemFallingDelay = 0;
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -94,34 +94,21 @@ GameFieldRender::TGemPtr &GameFieldRender::Gem( Point p )
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GameFieldRender::ResetFlyingGemsCount()  
-{
-  std::fill_n( m_flyingGemsCount, ARRAY_SIZE(m_flyingGemsCount), 0 );
-}
-//////////////////////////////////////////////////////////////////////////
-
 void GameFieldRender::OnGemAdded( Point p, GameField::Color cl )
 {
   ASSERT( !Gem(p) );
   ASSERT( GameField::IsValid(cl) );
 
   PointF startPos( fieldToScreen(Point(p.x, -1)) );
-                                              
-  const float maxPos = GameField::FieldSize - 1.0f;
-  const int posYFactor = m_flyingGemsCount[p.x]++;
-  const float posXFactor = 1 - p.x / maxPos;
-  const float posFactor = posYFactor + 0.f + 3.f * posXFactor;
-
-  startPos.y -= 50 * posFactor; 
-
+                                             
   TGemPtr pGem = boost::make_shared<GemObj>( startPos, m_texGems[cl] );
   Gem(p) = pGem;
 
-  const float dist = (fieldToScreen(p) - startPos).y;
+  const float fieldSize = GameField::FieldSize - 1.f;
+  const float firstCellTime = 0.2f;
+  const float accel = FallStateAccel::CalcAccel( float(m_cellSize), firstCellTime );
 
-  //const float baseTime = SquaredWithBounceStepFactor<float>::CalcNewTimeWithSameAccel( 50.f * GameField::FieldSize + 3.f * posXFactor, 1.f, dist );
-
-  pGem->FallTo( fieldToScreen(p), 1 + 0.06f * posFactor );
+  pGem->FallTo( fieldToScreen(p), accel,  firstCellTime * (fieldSize - p.y) + (fieldSize - p.x) * 0.06f );
 }
 //////////////////////////////////////////////////////////////////////////
 

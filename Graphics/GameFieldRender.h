@@ -23,6 +23,7 @@ private:
   struct IGemState;
   class DefaultState;
   class FallState;
+  class FallStateAccel;
   class SpringState;
   typedef boost::shared_ptr<GemObj> TGemPtr;
   typedef boost::weak_ptr<GemObj> TGemWeakPtr; 
@@ -45,14 +46,13 @@ private:
   static Point Round( PointF p );
   void BringNeighborsBack( Point p );
   Point ClampToSuitableMove( Point from, Point to ) const;
-  void ResetFlyingGemsCount();
-  
+
 private:
   Point m_pos;
   int m_cellSize;
   Texture m_texGems[GameField::ColorsCount];
   TGemPtr m_gems[GameField::FieldSize][GameField::FieldSize];
-  int m_flyingGemsCount[GameField::FieldSize];
+  float m_gemFallingDelay;
   TGemWeakPtr m_pGemDragged;
   Point m_draggedPos;
   mutable boost::random::mt19937 m_rng;

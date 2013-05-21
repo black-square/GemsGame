@@ -47,13 +47,40 @@ private:
 };
 //////////////////////////////////////////////////////////////////////////
 
+class GameFieldRender::FallStateAccel: public IGemState
+{
+public:
+  FallStateAccel *Start( PointF startPos, PointF destPos, float accel, float delay );
+  bool OnUpdate( float deltaTime, PointF &curPos );
+  static float CalcAccel(float distance, float time );
+
+private:
+  typedef bool (FallStateAccel::*UpdateStateT)( float deltaTime, PointF &curPos );
+  
+private:
+  bool OnUpdateDelay( float deltaTime, PointF &curPos );
+  bool OnUpdateBeforeBounce( float deltaTime, PointF &curPos );
+  bool OnUpdateAfterBounce( float deltaTime, PointF &curPos );
+  
+private:
+  PointF m_startPos;
+  float m_moveTime;
+  float m_totalTime;
+  PointF m_destPos;
+  float m_delay;
+  float m_accel;
+  float m_speedAfterBounce;
+  UpdateStateT m_pState;
+};
+//////////////////////////////////////////////////////////////////////////
+
 class GameFieldRender::GemObj
 {
 public:
   GemObj( PointF pos, const Texture &tex );
   void Render() const;
   void Update( float deltaTime );
-  void FallTo( PointF destPos, float totalTime );
+  void FallTo( PointF destPos, float accel, float delay );
   void UpdateDragPoint( PointF destPos );
   void SetPos( PointF curPos );
 
@@ -62,7 +89,7 @@ private:
   const Texture &m_tex;
   
   DefaultState m_defaultState;
-  FallState m_fallingState;
+  FallStateAccel m_fallingState;
   SpringState m_springState;
 
   IGemState *m_pCurState;
