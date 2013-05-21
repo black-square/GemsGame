@@ -1,7 +1,15 @@
 #include "stdafx.h"
 #include "GameFieldRender.h"
 #include "GameFieldRenderGemObj.h"
+#include <boost/random/uniform_real_distribution.hpp>
 
+//////////////////////////////////////////////////////////////////////////
+
+GameFieldRender::GameFieldRender() : 
+  m_cellSize(0), m_rng( static_cast<unsigned int>(std::time(0)) )
+{
+
+}
 //////////////////////////////////////////////////////////////////////////
 
 void GameFieldRender::Init( Point pos, int cellSize )
@@ -44,15 +52,21 @@ Rect GameFieldRender::GetBoarders() const
   return Rect( m_pos, Size(m_cellSize, m_cellSize) * GameField::FieldSize );
 }
 //////////////////////////////////////////////////////////////////////////
-Point GameFieldRender::fieldToScreen( Point p ) const
+GameFieldRender::PointF GameFieldRender::fieldToScreen( Point p ) const
 {
-  return m_pos + p * m_cellSize;
+  return PointF( m_pos + p * m_cellSize );
 }
 //////////////////////////////////////////////////////////////////////////
 
-Point GameFieldRender::screenToField( Point p ) const
+Point GameFieldRender::screenToField( PointF p ) const
 {
-  return (p - m_pos) / m_cellSize; 
+  return (Round(p) - m_pos) / m_cellSize; 
+}
+//////////////////////////////////////////////////////////////////////////
+
+Point GameFieldRender::Round( PointF p )
+{
+  return Point( p + PointF(0.5f, 0.5f) );
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -89,9 +103,19 @@ void GameFieldRender::OnGemAdded( Point p, GameField::Color cl )
 
   ASSERT(cl >= 0 && cl < ARRAY_SIZE(m_texGems) );
 
-  TGemPtr pGem = boost::make_shared<GemObj>( fieldToScreen(Point(p.x, p.y - GameField::FieldSize)), m_texGems[cl] );
+  PointF startPos( fieldToScreen(Point(p.x, -1)) );
+                                              
+  const float maxPos = GameField::FieldSize - 1.0f;
+  const float posYFactor = maxPos - p.y;
+  const float posXFactor = 1 - p.x / maxPos;
+  const float posFactor = posYFactor + 3.f * posXFactor;
+
+  startPos.y -= 50 * posFactor; 
+
+  TGemPtr pGem = boost::make_shared<GemObj>( startPos, m_texGems[cl] );
   Gem(p) = pGem;
-  pGem->MoveTo( fieldToScreen(p), 1 );
+
+  pGem->MoveTo( fieldToScreen(p), 1 + 0.06f * posFactor );
 }
 //////////////////////////////////////////////////////////////////////////
 

@@ -10,7 +10,7 @@ public:
   typedef boost::optional<Point> PosOpt;
 
 public:
-  GameFieldRender(): m_cellSize(0) {}
+  GameFieldRender();
 
   void Init( Point pos, int cellSize );
   void Render() const; 
@@ -19,6 +19,7 @@ public:
   PosOpt GetGemPos( Point mousePos ) const;
 
 private:
+  typedef PointBase<float> PointF;
   class GemObj;
   typedef boost::shared_ptr<GemObj> TGemPtr; 
 
@@ -33,14 +34,16 @@ private:
  
 private:
   Rect GetBoarders() const;
-  Point fieldToScreen( Point p ) const;
-  Point screenToField( Point p ) const;
+  PointF fieldToScreen( Point p ) const;
+  Point screenToField( PointF p ) const;
+  static Point Round( PointF p );
 
 private:
   Point m_pos;
   int m_cellSize;
   Texture m_texGems[GameField::ColorsCount];
   TGemPtr m_gems[GameField::FieldSize][GameField::FieldSize];
+  mutable boost::random::mt19937 m_rng;
 };
 
 

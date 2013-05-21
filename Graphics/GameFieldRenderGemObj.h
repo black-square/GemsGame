@@ -6,17 +6,17 @@
 class GameFieldRender::GemObj
 {
 public:
-  GemObj( Point pos, const Texture &tex );
+  GemObj( PointF pos, const Texture &tex );
   void Render() const;
   void Update( float deltaTime );
-  void MoveTo( Point destPos, float time );
+  void MoveTo( PointF destPos, float time );
 
 private:
-  PointBase<float> m_startPos;
+  PointF m_startPos;
   float m_moveTime;
   float m_totlaTime;
-  PointBase<float> m_curPos;
-  PointBase<float> m_destPos;
+  PointF m_curPos;
+  PointF m_destPos;
   const Texture &m_tex;
 };
 
