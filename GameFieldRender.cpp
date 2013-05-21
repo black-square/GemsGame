@@ -23,7 +23,7 @@ void GameFieldRender::Render( SDL_Surface *pSurface ) const
       if( cl != GameField::Empty )
       {
         ASSERT(cl >= 0 && cl < ARRAY_SIZE(m_gems) );
-        Draw( pSurface, m_gems[cl], m_pos + point_t( x * m_cellSize, y * m_cellSize ) );
+        Draw( m_gems[cl], m_pos + point_t( x * m_cellSize, y * m_cellSize ) );
       }
     }
 }
@@ -31,7 +31,7 @@ void GameFieldRender::Render( SDL_Surface *pSurface ) const
 
 void GameFieldRender::RenderMark( SDL_Surface* pSurface, point_t pt ) const
 {
-  Draw( pSurface, m_mark, m_pos + pt * m_cellSize );
+  Draw( m_mark, m_pos + pt * m_cellSize );
 }
 
 rect_t GameFieldRender::GetBoarders() const

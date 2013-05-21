@@ -14,9 +14,7 @@ private:
   void OnRender( SDL_Surface *pDisplay );
 
 private:
-  Texture	background;
-  Font m_font;
-  Texture m_infoText;
+  Texture m_texTest; 
 };
 
 

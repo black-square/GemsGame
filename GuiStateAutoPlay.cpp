@@ -14,8 +14,6 @@ GuiStateAutoPlay::GuiStateAutoPlay():
 
   m_pScore = boost::make_shared<GuiLabel>( point_t(38, 120), boost::make_shared<Font>( "./_data/gm.ttf", 25), "No moves" );
   AddWidget( m_pScore );
-
-  m_texTest.Load( "./_data/button_01.png" );
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -70,8 +68,6 @@ void GuiStateAutoPlay::OnRender( SDL_Surface *pDisplay )
     m_fieldRender.RenderMark( pDisplay, cur ); 
 
   m_fieldRender.Render( pDisplay );
-
-  Draw( pDisplay, m_texTest, rect_t( 20, 20, 60, 200 ) );
 }
 //////////////////////////////////////////////////////////////////////////
 

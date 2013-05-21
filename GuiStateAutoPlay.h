@@ -36,7 +36,6 @@ private:
   GuiLabel::TPtr m_pScore;
 
   int m_movesCount;
-  Texture m_texTest;
 };
 
 
