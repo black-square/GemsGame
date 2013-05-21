@@ -55,6 +55,11 @@ public:
     Set( pt.x, pt.y, cl ); 
   } 
 
+  static Size GetSize()
+  {
+    return Size(FieldSize, FieldSize);
+  }
+
 private:
   Color m_field[FieldSize][FieldSize];
 };

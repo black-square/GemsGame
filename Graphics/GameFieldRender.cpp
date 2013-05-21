@@ -46,12 +46,14 @@ void GameFieldRender::Update( float deltaTime )
         pGem->Update( deltaTime );
     }
 }
+//////////////////////////////////////////////////////////////////////////
 
 Rect GameFieldRender::GetBoarders() const
 {
   return Rect( m_pos, Size(m_cellSize, m_cellSize) * GameField::FieldSize );
 }
 //////////////////////////////////////////////////////////////////////////
+
 GameFieldRender::PointF GameFieldRender::fieldToScreen( Point p ) const
 {
   return PointF( m_pos + p * m_cellSize );
@@ -111,47 +113,39 @@ void GameFieldRender::OnGemAdded( Point p, GameField::Color cl )
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GameFieldRender::OnGemSwap( Point p1, Point p2 )
-{
-
-}
-//////////////////////////////////////////////////////////////////////////
-
 void GameFieldRender::OnGemMove( Point p1, Point p2 )
 {
+  TGemPtr &pGem1 = Gem(p1);
+  TGemPtr &pGem2 = Gem(p2);
+  
+  ASSERT( pGem1 );
+  ASSERT( !pGem2 );
 
+  pGem2 = pGem1;
+  pGem1.reset();
+  
+  pGem2->UpdateDragPoint( fieldToScreen(p2) );
 }
 //////////////////////////////////////////////////////////////////////////
 
 void GameFieldRender::OnGemDestroyed( Point p )
 {
+  TGemPtr &pGem = Gem(p);
 
+  ASSERT( pGem );
+  pGem.reset();
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GameFieldRender::LButtonDown( Point pos )
+void GameFieldRender::OnGemSwap( Point p1, Point p2 )
 {
-  if( !GetBoarders().isContain(pos) )
-    return;
+  TGemPtr &pGem1 = Gem(p1);
+  TGemPtr &pGem2 = Gem(p2);
 
-  const Point posField = screenToField(pos);
-
-  if( const TGemPtr &p = Gem( posField ) )
-  {
-    m_pGemDragged = p;
-    m_draggedPos = posField;
-  }
-}
-//////////////////////////////////////////////////////////////////////////
-
-void GameFieldRender::LButtonUp( Point pos )
-{
-  if( !m_pGemDragged.expired() )
-  {
-    BringNeighborsBack( m_draggedPos );
-    m_pGemDragged.reset();
-  }
-}
+  std::swap( pGem1, pGem2 );
+  pGem1->UpdateDragPoint( fieldToScreen(p1) );
+  pGem2->UpdateDragPoint( fieldToScreen(p2) );
+} 
 //////////////////////////////////////////////////////////////////////////
 
 void GameFieldRender::BringNeighborsBack( Point p )
@@ -169,19 +163,70 @@ void GameFieldRender::BringNeighborsBack( Point p )
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GameFieldRender::MouseMove( Point pos )
+Point GameFieldRender::ClampToSuitableMove( Point from, Point to ) const
+{ 
+  const Point diff = abs(to - from);
+
+  if( diff.x > diff.y )
+    to.y = from.y;
+  else if( diff.y > diff.x )
+    to.x = from.x;
+
+  const Rect moveRect( from - Point(1, 1), Size(3, 3) );
+  const Rect fieldRect( Point(), GameField::GetSize() );
+
+  return clamp( clamp( to, moveRect ), fieldRect );
+}
+//////////////////////////////////////////////////////////////////////////
+
+
+void GameFieldRender::LButtonDown( Point pos )
 {
   if( !GetBoarders().isContain(pos) )
     return;
 
-  const TGemPtr &p = m_pGemDragged.lock();
   const Point posField = screenToField(pos);
-  const bool canMove = m_draggedPos == posField || GameLogic::IsPossibleMove(m_draggedPos, posField);
 
-  if( p && canMove )
+  if( const TGemPtr &p = Gem( posField ) )
+  {
+    m_pGemDragged = p;
+    m_draggedPos = posField;
+  }
+}
+//////////////////////////////////////////////////////////////////////////
+
+void GameFieldRender::LButtonUp( Point pos, GameLogic::TMove &move )
+{
+  move = GameLogic::TMove();
+
+  if( !m_pGemDragged.expired() )
   {
     BringNeighborsBack( m_draggedPos );
-    
+
+    const Point posField = ClampToSuitableMove( m_draggedPos, screenToField(pos) );
+
+    if( GameLogic::IsPossibleMove(m_draggedPos, posField) )
+      move = std::make_pair( m_draggedPos, posField );
+
+    m_pGemDragged.reset();
+  }
+}
+//////////////////////////////////////////////////////////////////////////
+
+
+void GameFieldRender::MouseMove( Point pos )
+{
+  const TGemPtr &p = m_pGemDragged.lock();
+
+  if( !p )
+    return;
+
+  const Point posField = ClampToSuitableMove( m_draggedPos, screenToField(pos) );
+  const bool canMove = m_draggedPos == posField || GameLogic::IsPossibleMove(m_draggedPos, posField);
+
+  if( canMove )
+  {
+    BringNeighborsBack( m_draggedPos );  
     p->UpdateDragPoint( fieldToScreen(posField) );  
     
     if( const TGemPtr &pPair = Gem( posField ) )

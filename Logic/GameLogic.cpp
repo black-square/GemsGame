@@ -17,9 +17,14 @@ GameLogic::GameLogic():
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GameLogic::SetEventsHandler( IEvents *pEvents /*= 0*/ )
+void GameLogic::SetEventsHandler( GameField &field, IEvents *pEvents /*= 0*/ )
 {
-  m_pEvents = pEvents != 0 ? pEvents : &g_dummyGameLogicEvents; 
+  m_pEvents = pEvents != 0 ? pEvents : &g_dummyGameLogicEvents;
+  
+  for( int y = GameField::FieldSize - 1; y >= 0; --y ) //Reverse order to simplify presentation
+    for( int x = 0; x < GameField::FieldSize; ++x )    
+      if( field.Get(x , y) != GameField::Empty )
+        m_pEvents->OnGemAdded( Point(x, y), field.Get(x , y) );
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -71,16 +76,20 @@ void GameLogic::FillEmptyToDown( GameField &field ) const
 
 bool GameLogic::DestroyAndFillEmptyToDown( GameField &field ) const
 {
-  if( !RemoveMatches(field) )
+  TPoints matches;
+
+  if( !FindMatches(field, matches) )
     return false;
 
   do 
   {
-    FillEmptyToDown( field );  
+    Remove( field, matches );
+    FillEmptyToDown( field );
+    FillEmptyRandomly( field );  
   } 
-  while( RemoveMatches(field) );
+  while( FindMatches(field, matches) ); 
   
-  return true;
+  return true; 
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -190,21 +199,13 @@ bool GameLogic::FindMatches( GameField &field, TPoints &matches )
 void GameLogic::Remove( GameField &field, const TPoints &matches ) const
 {
   BOOST_FOREACH( const Point &pt, matches )
-  {
-    field.Set( pt, GameField::Empty );
-    m_pEvents->OnGemDestroyed( pt );
-  }
+    if( field.Get(pt) != GameField::Empty )
+    { 
+      field.Set( pt, GameField::Empty );
+      m_pEvents->OnGemDestroyed( pt );
+    }
 }
 //////////////////////////////////////////////////////////////////////////
-
-bool GameLogic::RemoveMatches( GameField &field ) const
-{
-  TPoints matches;
-  
-  FindMatches(field, matches);
-  Remove( field, matches );
-  return !matches.empty();
-}
 
 template< class FieldProxyT, int N >
 GameField::Color GameLogic::IsPatMatched( FieldProxyT field, Point cur, const Point (&pat)[N] )
@@ -336,13 +337,43 @@ bool GameLogic::IsPossibleMove( Point p1, Point p2 )
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GameLogic::Swap( GameField &field, Point p1, Point p2 ) const 
+void GameLogic::SwapImpl( GameField &field, Point p1, Point p2 )
 {
   const GameField::Color cl = field.Get( p1 );
   field.Set( p1, field.Get( p2 ) );
   field.Set( p2, cl );
+}
+//////////////////////////////////////////////////////////////////////////
 
+void GameLogic::Swap( GameField &field, Point p1, Point p2 ) const 
+{
+  SwapImpl( field, p1, p2 );
   m_pEvents->OnGemSwap( p1, p2 );
+}
+//////////////////////////////////////////////////////////////////////////
+
+void GameLogic::MakeMove( GameField &field, const TMove &move ) const
+{
+  ASSERT( IsPossibleMove( move.first, move.second) );
+  SwapImpl( field, move.first, move.second );
+  
+  TPoints matches;
+
+  if( !FindMatches(field, matches) )
+  {
+    SwapImpl( field, move.first, move.second );
+    return;
+  }
+
+   m_pEvents->OnGemSwap( move.first, move.second );
+     
+   do 
+   {
+     Remove( field, matches );
+     FillEmptyToDown( field );
+     FillEmptyRandomly( field );  
+   } 
+   while( FindMatches(field, matches) );  
 }
 
 

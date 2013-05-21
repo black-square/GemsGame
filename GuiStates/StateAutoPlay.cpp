@@ -6,7 +6,7 @@ GuiStateAutoPlay::GuiStateAutoPlay():
   m_fieldRender(m_field), m_movesCount(0)
 {
   m_logic.FillEmptyRandomly( m_field );
-  m_logic.SetEventsHandler( this );
+  m_logic.SetEventsHandler( m_field, this );
 
   AddWidget( boost::make_shared<Gui::Image>( Point(0, 0), boost::make_shared<Texture>("./_data/background.jpg") ) );
   

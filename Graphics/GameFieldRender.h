@@ -14,7 +14,7 @@ public:
   void Update( float deltaTime );
 
   void LButtonDown( Point pos );
-  void LButtonUp( Point pos );
+  void LButtonUp( Point pos, GameLogic::TMove &move );
   void MouseMove( Point pos );
 
 private:
@@ -44,7 +44,8 @@ private:
   Point screenToField( Point p ) const;
   static Point Round( PointF p );
   void BringNeighborsBack( Point p );
-
+  Point ClampToSuitableMove( Point from, Point to ) const;
+  
 private:
   Point m_pos;
   int m_cellSize;

@@ -1,13 +1,14 @@
 #include "stdafx.h"
 #include "StateMainGame.h"
 
-GuiStateMainGame::GuiStateMainGame():
-  m_fieldRender()
+GuiStateMainGame::GuiStateMainGame()
 {
   m_fieldRender.Init( Point(330, 100), 42 );
-  m_logic.SetEventsHandler( &m_fieldRender );
+ 
   m_logic.FillEmptyRandomly( m_field );
-  
+  m_logic.DestroyAndFillEmptyToDown( m_field );
+  m_logic.SetEventsHandler( m_field, &m_fieldRender );
+
   m_pTexBack = boost::make_shared<Texture>("./_data/background.jpg");
 
   AddWidget( boost::make_shared<Gui::Image>( Point(0, 0), m_pTexBack ) );
@@ -52,7 +53,11 @@ void GuiStateMainGame::OnLButtonDown( Point pos )
 
 void GuiStateMainGame::OnLButtonUp( Point pos )
 {
-  m_fieldRender.LButtonUp( pos );
+  GameLogic::TMove move;
+  m_fieldRender.LButtonUp( pos, move );
+
+  if( move.first != move.second )
+    m_logic.MakeMove(m_field, move);
 }
 //////////////////////////////////////////////////////////////////////////\
 
