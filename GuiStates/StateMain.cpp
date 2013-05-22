@@ -2,6 +2,7 @@
 #include "StateMain.h"
 #include "StateAutoPlay.h"
 #include "StateMainGame.h"
+#include "StateZenGame.h"
 #include "Gui/Widgets.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -19,9 +20,17 @@ GuiStateMain::GuiStateMain()
     Rect( Point(290, 300), Size(200, 50) ),
     boost::make_shared<Font>( "./_data/gm.ttf", 25),
     boost::make_shared<Texture>( "./_data/button_01.png", 2 ),
+    BIND_THIS(StartZenGameState),
+    "Zen Mode Game"
+  ));
+
+  AddWidget( boost::make_shared<Gui::Button>(
+    Rect( Point(290, 380), Size(200, 50) ),
+    boost::make_shared<Font>( "./_data/gm.ttf", 25),
+    boost::make_shared<Texture>( "./_data/button_01.png", 2 ),
     BIND_THIS(StartAutoplayState),
     "Autoplay Test"
-  ));
+    ));
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -37,4 +46,7 @@ void GuiStateMain::StartMainGameState()
 }
 //////////////////////////////////////////////////////////////////////////
 
-
+void GuiStateMain::StartZenGameState()
+{
+  GetManager()->SetState( boost::make_shared<GuiStateZenGame>() );
+}

@@ -401,6 +401,22 @@ bool GameLogic::MakeMove( const TMove &move, TPoints &matches )
 }
 //////////////////////////////////////////////////////////////////////////
 
+bool GameLogic::MakeZenMove( const TMove &move, TPoints &matches )
+{
+  ASSERT( IsPossibleMove( move.first, move.second) );
+  SwapImpl( move.first, move.second );
+
+  if( FindMatches(matches) )
+  {
+    SwapImpl( move.first, move.second );
+    return false;
+  }
+
+   m_pEvents->OnGemSwap( move.first, move.second );
+   return true;
+}
+//////////////////////////////////////////////////////////////////////////
+
 void GameLogic::RecreateField()
 {
   for( int x = 0; x < GameField::FieldSize; ++x )

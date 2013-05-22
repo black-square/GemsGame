@@ -147,7 +147,7 @@ void GuiStateMainGame::OnUpdate( float deltaTime )
     if( --m_secRemain < 0 )
     {
       m_timerGameTime.Stop();
-      m_pLblFinalText->SetText( MakeString(FMT("Time is Up!") % m_score), Color::make_cyan() );
+      m_pLblFinalText->SetText( MakeString(FMT("Time is Up!")), Color::make_cyan() );
     }  
   }
 }

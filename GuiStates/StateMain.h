@@ -13,7 +13,8 @@ public:
 
 private:
   void StartAutoplayState();
-  void StartMainGameState(); 
+  void StartMainGameState();
+  void StartZenGameState(); 
 };
 
 

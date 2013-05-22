@@ -14,7 +14,7 @@ public:
 
   void Init( Point pos, int cellSize );
   void Render() const; 
-  void RenderMark( Point pt ) const;
+  void RenderMark( Point pt, int id = 0 ) const;
   void Update( float deltaTime );
 
   void LButtonDown( Point pos );
@@ -56,7 +56,7 @@ private:
   Point m_pos;
   int m_cellSize;
   Texture m_texGems[GameField::ColorsCount];
-  Texture m_texMark;
+  Texture m_texMarks[2];
   TGemPtr m_gems[GameField::FieldSize][GameField::FieldSize];
   TGemWeakPtr m_pGemDragged;
   Point m_draggedPos;

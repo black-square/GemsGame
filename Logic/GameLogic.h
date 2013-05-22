@@ -30,6 +30,7 @@ public:
 
   void Swap( Point p1, Point p2 );
   bool MakeMove( const TMove &move, TPoints &matches );
+  bool MakeZenMove( const TMove &move, TPoints &matches );
 
   static bool IsPossibleMove( Point p1, Point p2 );
   const TMove &GetRand( const TMoves &moves ) const;
