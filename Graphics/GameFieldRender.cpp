@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GameFieldRender.h"
 #include "GameFieldRenderGemObj.h"
+#include "Audio/SoundManager.h"
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -136,6 +137,7 @@ void GameFieldRender::OnGemDestroyed( Point p )
 
   ASSERT( pGem );
   pGem.reset();
+  PlaySound("./_data/gem_expl.wav" );
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -208,7 +210,10 @@ void GameFieldRender::LButtonUp( Point pos, GameLogic::TMove &move )
     const Point posField = ClampToSuitableMove( m_draggedPos, screenToField(pos) );
 
     if( GameLogic::IsPossibleMove(m_draggedPos, posField) )
+    {
       move = std::make_pair( m_draggedPos, posField );
+      PlaySound( "./_data/click.wav" );
+    }
 
     m_pGemDragged.reset();
   }

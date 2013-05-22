@@ -51,7 +51,7 @@ GuiStateMain::GuiStateMain()
     pBtnFont, pBtnTex,
     BIND_THIS(StartAutoplayState),
     "Autoplay Test"
-    ));
+  ));
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -71,3 +71,4 @@ void GuiStateMain::StartZenGameState()
 {
   GetManager()->SetState( boost::make_shared<GuiStateZenGame>() );
 }
+

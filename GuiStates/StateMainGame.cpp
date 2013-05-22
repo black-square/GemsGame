@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "StateMainGame.h"
 #include "Core/Interp.hpp"
+#include "Audio/SoundManager.h"
 
 const int g_gameDuration = 60;
 
@@ -148,6 +149,7 @@ void GuiStateMainGame::OnUpdate( float deltaTime )
     {
       m_timerGameTime.Stop();
       m_pLblFinalText->SetText( MakeString(FMT("Time is Up!")), Color::make_cyan() );
+      PlaySound( "./_data/tada.wav" );
     }  
   }
 }

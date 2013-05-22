@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "GameFieldRenderGemObj.h"
+#include "Audio/SoundManager.h"
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -101,9 +102,11 @@ bool GameFieldRender::FallState::OnUpdateBeforeBounce( float deltaTime, PointF &
   }
   else
   {   
+    curPos = m_destPos;
     m_moveTime -= m_totalTime;
     m_totalTime = m_speedAfterBounce / m_accel; //Maple: solve( {v*t = a*t^2}, {t} );
     m_pState = &FallState::OnUpdateAfterBounce;
+    PlaySound("./_data/gem_fall.wav" );
   }  
 
   return true;

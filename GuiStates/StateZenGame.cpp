@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "StateZenGame.h"
 #include "Core/Interp.hpp"
+#include "Audio/SoundManager.h"
 
 const int g_gameDuration = 60;
 
@@ -93,7 +94,7 @@ void GuiStateZenGame::OnLButtonUp( Point pos )
   m_fieldRender.LButtonUp( pos, move );
 
   if( move.first != move.second )
-  {
+  { 
     if( !m_logic.MakeZenMove(move, m_matches) )
     {
       m_timerShowMatches.Start();
@@ -106,7 +107,10 @@ void GuiStateZenGame::OnLButtonUp( Point pos )
       m_logic.FindAllMoves( m_possibleMoves );
       
       if( m_possibleMoves.empty() )
-        m_pLblFinalText->SetText( MakeString(FMT("You did it!")), Color::make_cyan() );
+      {
+        m_pLblFinalText->SetText( MakeString(FMT("You've done it!")), Color::make_cyan() );
+        PlaySound( "./_data/tada.wav" );
+      }
     }
   }
 }
