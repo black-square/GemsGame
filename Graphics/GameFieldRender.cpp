@@ -214,7 +214,6 @@ void GameFieldRender::LButtonUp( Point pos, GameLogic::TMove &move )
 }
 //////////////////////////////////////////////////////////////////////////
 
-
 void GameFieldRender::MouseMove( Point pos )
 {
   const TGemPtr &p = m_pGemDragged.lock();

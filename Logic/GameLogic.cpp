@@ -97,10 +97,8 @@ void GameLogic::FillEmptyToDown()
 }
 //////////////////////////////////////////////////////////////////////////
 
-bool GameLogic::FindRemoveFillOnce()
+bool GameLogic::FindRemoveFillOnce( TPoints &matches )
 {
-  TPoints matches;
-
   if( !FindMatches(matches) )
     return false;
 
@@ -114,7 +112,9 @@ bool GameLogic::FindRemoveFillOnce()
 
 void GameLogic::FindRemoveFillCompleate()
 {
-  while( FindRemoveFillOnce() ) 
+  TPoints matches;
+
+  while( FindRemoveFillOnce(matches) ) 
   {
     //Nothing
   }
@@ -380,13 +380,11 @@ void GameLogic::Swap( Point p1, Point p2 )
 }
 //////////////////////////////////////////////////////////////////////////
 
-bool GameLogic::MakeMove( const TMove &move )
+bool GameLogic::MakeMove( const TMove &move, TPoints &matches )
 {
   ASSERT( IsPossibleMove( move.first, move.second) );
   SwapImpl( move.first, move.second );
   
-  TPoints matches;
-
   if( !FindMatches(matches) )
   {
     SwapImpl( move.first, move.second );

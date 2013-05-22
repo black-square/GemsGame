@@ -25,6 +25,7 @@ private:
 
 private:
   void ReturnToMainState();
+  void MatchesFound( GameLogic::TPoints &matches );
 
 private:
   GameField m_field;
@@ -35,6 +36,17 @@ private:
   SimpleTimer<float> m_timerCheckMatches;
   SimpleTimer<float> m_timerShowHint;
   SimpleTimer<float> m_timerHintShowed;
+  SimpleTimer<float> m_timerMultiplierReset;
+  SimpleTimer<float> m_timerGameTime;
+  boost::int64_t m_score;
+  boost::int64_t m_scoreMultiplier;
+  int            m_secRemain;
+  Gui::Label::TPtr m_pLblScore;
+  Gui::Label::TPtr m_pLblLastScore;
+  Gui::Label::TPtr m_pLblMultiplier;
+  Gui::Label::TPtr m_pLblTime;
+  Gui::Label::TPtr m_pLblFinalText;
+  
 };
 
 #endif // StateMainGame_h__

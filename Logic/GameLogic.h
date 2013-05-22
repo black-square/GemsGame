@@ -25,11 +25,11 @@ public:
 
   void FindAllMoves( TMoves &moves ) const;
   void FillEmptyToDown();
-  bool FindRemoveFillOnce();
+  bool FindRemoveFillOnce( TPoints &matches );
   void FindRemoveFillCompleate();
 
   void Swap( Point p1, Point p2 );
-  bool MakeMove( const TMove &move );
+  bool MakeMove( const TMove &move, TPoints &matches );
 
   static bool IsPossibleMove( Point p1, Point p2 );
   const TMove &GetRand( const TMoves &moves ) const;
