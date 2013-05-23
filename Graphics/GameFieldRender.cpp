@@ -27,6 +27,7 @@ void GameFieldRender::Init( Point pos, int cellSize )
 
   m_texMarks[0].Load("./_data/mark2.png");
   m_texMarks[1].Load("./_data/mark.png");
+  m_pTexExplosion = boost::make_shared<Texture>( "./_data/explosion.png", 4 );
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -40,6 +41,8 @@ void GameFieldRender::Render() const
       if( pGem )
         pGem->Render();
     }
+
+  m_particles.Render();
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -54,6 +57,7 @@ void GameFieldRender::Update( float deltaTime )
         pGem->Update( deltaTime );
     }
   
+  m_particles.Update( deltaTime );
   m_pFallingGemsManager->Reset();
 }
 //////////////////////////////////////////////////////////////////////////
@@ -138,6 +142,9 @@ void GameFieldRender::OnGemDestroyed( Point p )
   ASSERT( pGem );
   pGem.reset();
   PlaySound("./_data/gem_expl.wav" );
+
+  const Point center = Round( fieldToScreen(p) + PointF(m_cellSize / 2.f, m_cellSize / 2.f) );
+  MakeExplosion( m_particles, center, m_pTexExplosion );
 }
 //////////////////////////////////////////////////////////////////////////
 

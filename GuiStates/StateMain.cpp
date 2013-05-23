@@ -52,8 +52,6 @@ GuiStateMain::GuiStateMain()
     BIND_THIS(StartAutoplayState),
     "Autoplay Test"
   ));
-
-  m_pTex = boost::make_shared<Texture>( "./_data/explosion.png", 4 );
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -74,47 +72,4 @@ void GuiStateMain::StartZenGameState()
   GetManager()->SetState( boost::make_shared<GuiStateZenGame>() );
 }
 
-void GuiStateMain::OnLButtonDown( Point pos )
-{
-  Particle::Param rgParams[4];
-
-  const float scale = 2;
-  const float lt = 0.3f;
-  const float dl = 0.01f;
-
-  rgParams[0].scaleEnd = scale; 
-  rgParams[0].lifeTime = lt;
-  rgParams[0].alphaMiddle = 0.7f;
-
-  rgParams[1].hideDelay = dl;
-  rgParams[1].scaleEnd = scale; 
-  rgParams[1].lifeTime = lt + rgParams[1].hideDelay;
-  rgParams[1].alphaMiddle = 0.7f;
-  rgParams[1].texFrame = 1;
-
-  rgParams[2].hideDelay = dl * 2;
-  rgParams[2].scaleEnd = scale; 
-  rgParams[2].lifeTime = lt + rgParams[2].hideDelay;
-  rgParams[2].alphaMiddle = 0.7f;
-  rgParams[2].texFrame = 2;
-
-  rgParams[3].hideDelay = dl * 3;
-  rgParams[3].scaleEnd = 1.5f * (scale); 
-  rgParams[3].lifeTime = 1.5f * (lt + rgParams[3].hideDelay);
-  rgParams[3].alphaMiddle = 0.7f;
-  rgParams[3].texFrame = 3;
-
-
-  m_part.Emit( pos, m_pTex, rgParams, ARRAY_SIZE(rgParams) );
-}
-
-void GuiStateMain::OnUpdate( float deltaTime )
-{
-  m_part.Update( deltaTime );
-}
-
-void GuiStateMain::OnRender() const
-{
-  m_part.Render();
-}
 

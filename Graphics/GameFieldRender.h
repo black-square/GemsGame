@@ -3,6 +3,7 @@
 
 #include "Logic/GameLogic.h"
 #include "Texture.h"
+#include "Particles/ParticlesManager.h"
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -61,6 +62,9 @@ private:
   TGemWeakPtr m_pGemDragged;
   Point m_draggedPos;
   const boost::scoped_ptr<FallingGemsManager> m_pFallingGemsManager;
+
+  ParticlesManager m_particles;
+  Texture::TPtr m_pTexExplosion;
 };
 
 
