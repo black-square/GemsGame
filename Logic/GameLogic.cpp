@@ -258,6 +258,13 @@ GameField::Color GameLogic::IsPatMatched( FieldProxyT field, Point cur, const Po
 }
 //////////////////////////////////////////////////////////////////////////
 
+struct GameLogic::TOneMove
+{
+  Point from;
+  Point to;
+};
+//////////////////////////////////////////////////////////////////////////
+
 template< class FieldProxyT, int N >
 void GameLogic::CheckPossibleMoves( FieldProxyT field, Point cur, GameField::Color cl, const TOneMove (&patterns)[N], TMoves &moves )
 {
@@ -273,13 +280,6 @@ void GameLogic::CheckPossibleMoves( FieldProxyT field, Point cur, GameField::Col
     }
   } 
 }
-//////////////////////////////////////////////////////////////////////////
-
-struct GameLogic::TOneMove
-{
-  Point from;
-  Point to;
-};
 //////////////////////////////////////////////////////////////////////////
 
 template< class FieldProxyT >
