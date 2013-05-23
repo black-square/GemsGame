@@ -32,6 +32,8 @@ private:
   GameLogic m_logic;
   GameFieldRender m_fieldRender;
   Texture::TPtr m_pTexBack;
+  Gui::Image::TPtr m_pImgTimePlate;
+
   GameLogic::TMove m_hint;
   SimpleTimer<float> m_timerCheckMatches;
   SimpleTimer<float> m_timerShowHint;
@@ -45,8 +47,7 @@ private:
   Gui::Label::TPtr m_pLblLastScore;
   Gui::Label::TPtr m_pLblMultiplier;
   Gui::Label::TPtr m_pLblTime;
-  Gui::Label::TPtr m_pLblFinalText;
-  
+  Gui::Label::TPtr m_pLblFinalText; 
 };
 
 #endif // StateMainGame_h__

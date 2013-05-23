@@ -26,8 +26,10 @@ GuiStateMainGame::GuiStateMainGame():
   m_timerGameTime.Start();
 
   m_pTexBack = boost::make_shared<Texture>("./_data/background.jpg");
-
   AddWidget( boost::make_shared<Gui::Image>( Point(0, 0), m_pTexBack ) );
+  
+  m_pImgTimePlate = boost::make_shared<Gui::Image>( Point(55, 416), boost::make_shared<Texture>("./_data/time_plate.png"), Color::make_white_a(0) );
+  AddWidget( m_pImgTimePlate );
 
   const Font::TPtr pBtnFont = boost::make_shared<Font>( "./_data/gm.ttf", 17 );
   const Texture::TPtr pBtnTex = boost::make_shared<Texture>( "./_data/button_01.png", 2 );
@@ -143,7 +145,10 @@ void GuiStateMainGame::OnUpdate( float deltaTime )
 
   if( m_timerGameTime.TickWithRestart(deltaTime) )
   {
-    m_pLblTime->SetText( MakeString(FMT("%d") % m_secRemain), MakeColorFromHSV( Lerp(0.f, 120.f, float(m_secRemain) / g_gameDuration), 1, 1) );
+    m_pLblTime->SetText( MakeString(FMT("%d") % m_secRemain), Color(60, 86, 121) );
+    
+    const Color cl = MakeColorFromHSV( Lerp(0.f, 120.f, float(m_secRemain) / g_gameDuration), 1.0f, 1.0f, 150 );
+    m_pImgTimePlate->SetColor(cl);
 
     if( --m_secRemain < 0 )
     {
