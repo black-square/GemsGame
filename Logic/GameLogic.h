@@ -6,8 +6,6 @@
     
 
 //////////////////////////////////////////////////////////////////////////
-
-// No moves field: http://gyazo.com/1e67cc33fe5f2e7c4689984e7a4d3bfe
 class GameLogic
 {
 public:
