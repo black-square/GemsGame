@@ -8,12 +8,10 @@
 //////////////////////////////////////////////////////////////////////////
 GuiStateMain::GuiStateMain()
 {
-  /*
   AddWidget( boost::make_shared<Gui::Image>(
     Rect( Point(0, 0), Size(755, 600) ),
     boost::make_shared<Texture>( "./_data/backg_main.png" )
     ));
-  */
  
   const Texture::TPtr pBtnTex = boost::make_shared<Texture>( "./_data/button_01.png", 2 );
   const Font::TPtr pBtnFont = boost::make_shared<Font>( "./_data/gm.ttf", 25);
@@ -54,29 +52,6 @@ GuiStateMain::GuiStateMain()
     BIND_THIS(StartAutoplayState),
     "Autoplay Test"
   ));
-  
-  m_pTexTst = boost::make_shared<Texture>("./_data/explosion.png", 4 );
-}
-//////////////////////////////////////////////////////////////////////////
-
-void GuiStateMain::OnRender() const
-{
-  for( int i = 0; i < 8; ++i )
-    Draw( *m_pTexTst, Rect( Point(), Size(64, 16)), Rect( Point(0, (i * 50) + 125 ), Size(64, 16) * 3), Color::make_white_a(GLubyte(i * 32 + 31)) );
-
-  m_particles.Render();
-}
-//////////////////////////////////////////////////////////////////////////
-
-void GuiStateMain::OnLButtonDown( Point pos )
-{
-   MakeExplosion( m_particles, pos, m_pTexTst );
-}
-//////////////////////////////////////////////////////////////////////////
-
-void GuiStateMain::OnUpdate( float deltaTime )
-{
-  m_particles.Update( deltaTime );
 }
 //////////////////////////////////////////////////////////////////////////
 
