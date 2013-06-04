@@ -104,7 +104,7 @@ bool GameFieldRender::FallState::OnUpdateBeforeBounce( float deltaTime, PointF &
   {   
     curPos = m_destPos;
     m_moveTime -= m_totalTime;
-    m_totalTime = m_speedAfterBounce / m_accel; //Maple: solve( {v*t = a*t^2}, {t} );
+    m_totalTime = m_speedAfterBounce / m_accel; //Maple: solve( {a*t^2 - v*t = 0}, {t} );
     m_pState = &FallState::OnUpdateAfterBounce;
     PlaySound("./_data/gem_fall.wav" );
   }  
