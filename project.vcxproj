@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{2AF1CA82-AB06-43DA-BEBF-99CE4BCABB9B}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>project</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110_xp</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110_xp</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\boost_1_53_0\;$(ProjectDir)\..\SDL\SDL-1.2.15\include\;$(ProjectDir)\..\SDL\SDL_image-1.2.12\include;$(ProjectDir)\..\SDL\SDL_ttf-2.0.11\include;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\boost_1_53_0\stage\lib\;$(ProjectDir)\..\SDL\SDL-1.2.15\lib\x86\;$(ProjectDir)\..\SDL\SDL_image-1.2.12\lib\x86;$(ProjectDir)\..\SDL\SDL_ttf-2.0.11\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL.lib;SDLmain.lib;SDL_image.lib;SDL_ttf.lib;Opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)\..\SDL\SDL-1.2.15\lib\x86\SDL.dll" "$(OutputPath)\\"
+copy /y "$(ProjectDir)\..\SDL\SDL_image-1.2.12\lib\x86\*.dll" "$(OutputPath)\\"
+copy /y "$(ProjectDir)\..\SDL\SDL_ttf-2.0.11\lib\x86\*.dll" "$(OutputPath)\\"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\boost_1_53_0\;$(ProjectDir)\..\SDL\SDL-1.2.15\include\;$(ProjectDir)\..\SDL\SDL_image-1.2.12\include;$(ProjectDir)\..\SDL\SDL_ttf-2.0.11\include;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\boost_1_53_0\stage\lib\;$(ProjectDir)\..\SDL\SDL-1.2.15\lib\x86\;$(ProjectDir)\..\SDL\SDL_image-1.2.12\lib\x86;$(ProjectDir)\..\SDL\SDL_ttf-2.0.11\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <AdditionalDependencies>SDL.lib;SDLmain.lib;SDL_image.lib;SDL_ttf.lib;Opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)\..\SDL\SDL-1.2.15\lib\x86\SDL.dll" "$(OutputPath)\\"
+copy /y "$(ProjectDir)\..\SDL\SDL_image-1.2.12\lib\x86\*.dll" "$(OutputPath)\\"
+copy /y "$(ProjectDir)\..\SDL\SDL_ttf-2.0.11\lib\x86\*.dll" "$(OutputPath)\\"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Audio\Sound.h" />
+    <ClInclude Include="Audio\SoundCache.h" />
+    <ClInclude Include="Audio\SoundManager.h" />
+    <ClInclude Include="Core\CommonMacros.h" />
+    <ClInclude Include="Core\Interp.hpp" />
+    <ClInclude Include="Core\Log.h" />
+    <ClInclude Include="Core\Point.hpp" />
+    <ClInclude Include="Core\Rect.hpp" />
+    <ClInclude Include="Core\Size.hpp" />
+    <ClInclude Include="Core\StrFormat.h" />
+    <ClInclude Include="Core\TimeHelpers.hpp" />
+    <ClInclude Include="Graphics\Color.hpp" />
+    <ClInclude Include="Graphics\Font.h" />
+    <ClInclude Include="Graphics\GameFieldRender.h" />
+    <ClInclude Include="Graphics\GameFieldRenderGemObj.h" />
+    <ClInclude Include="Graphics\SimpleGameFieldRender.h" />
+    <ClInclude Include="Graphics\Texture.h" />
+    <ClInclude Include="GuiStates\StateAutoPlay.h" />
+    <ClInclude Include="GuiStates\StateMain.h" />
+    <ClInclude Include="GuiStates\StateMainGame.h" />
+    <ClInclude Include="GuiStates\StateZenGame.h" />
+    <ClInclude Include="Gui\State.h" />
+    <ClInclude Include="Gui\Widgets.h" />
+    <ClInclude Include="Logic\AutoPlay.h" />
+    <ClInclude Include="Logic\GameField.h" />
+    <ClInclude Include="Logic\GameLogic.h" />
+    <ClInclude Include="Main.h" />
+    <ClInclude Include="Particles\Particle.h" />
+    <ClInclude Include="Particles\ParticlesManager.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="System\App.h" />
+    <ClInclude Include="System\AppBase.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Audio\Sound.cpp" />
+    <ClCompile Include="Audio\SoundCache.cpp" />
+    <ClCompile Include="Audio\SoundManager.cpp" />
+    <ClCompile Include="Core\Log.cpp" />
+    <ClCompile Include="Core\StrFormat.cpp" />
+    <ClCompile Include="Graphics\Font.cpp" />
+    <ClCompile Include="Graphics\GameFieldRender.cpp" />
+    <ClCompile Include="Graphics\GameFieldRenderGemObj.cpp" />
+    <ClCompile Include="Graphics\SimpleGameFieldRender.cpp" />
+    <ClCompile Include="Graphics\Texture.cpp" />
+    <ClCompile Include="GuiStates\StateAutoPlay.cpp" />
+    <ClCompile Include="GuiStates\StateMain.cpp" />
+    <ClCompile Include="GuiStates\StateMainGame.cpp" />
+    <ClCompile Include="GuiStates\StateZenGame.cpp" />
+    <ClCompile Include="Gui\State.cpp" />
+    <ClCompile Include="Gui\Widgets.cpp" />
+    <ClCompile Include="Logic\AutoPlay.cpp" />
+    <ClCompile Include="Logic\GameField.cpp" />
+    <ClCompile Include="Logic\GameLogic.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Particles\Particle.cpp" />
+    <ClCompile Include="Particles\ParticlesManager.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="System\App.cpp" />
+    <ClCompile Include="System\AppBase.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="project.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="main.ico" />
+    <Image Include="small.ico" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
