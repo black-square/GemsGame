@@ -14,6 +14,7 @@
     <ProjectGuid>{2AF1CA82-AB06-43DA-BEBF-99CE4BCABB9B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>project</RootNamespace>
+    <ProjectName>GemsGame</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
