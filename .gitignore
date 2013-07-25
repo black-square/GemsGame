@@ -6,3 +6,5 @@
 /*.aps
 /*.opensdf
 .DS_Store
+/MacProject.xcodeproj/xcuserdata
+/MacProject.xcodeproj/project.xcworkspace

@@ -1,0 +1,9 @@
+#ifdef __cplusplus
+#include "stdafx.h"
+#endif
+
+#ifdef __OBJC__
+  #import <Cocoa/Cocoa.h>
+#endif
+
+
