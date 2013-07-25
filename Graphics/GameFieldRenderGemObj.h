@@ -2,7 +2,7 @@
 #define GameFieldRenderGem_h__
 
 #include "GameFieldRender.h"
-#include "Core/Interp.hpp"
+#include "Engine/Core/Interp.hpp"
 
 struct GameFieldRender::IGemState
 {

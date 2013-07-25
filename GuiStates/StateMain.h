@@ -1,7 +1,7 @@
 #ifndef GuiStateMain_h__
 #define GuiStateMain_h__
 
-#include "Gui/State.h"
+#include "Engine/Gui/State.h"
 
 
 class GuiStateMain: public Gui::State

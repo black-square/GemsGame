@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "StateMainGame.h"
-#include "Core/Interp.hpp"
-#include "Audio/SoundManager.h"
+#include "Engine/Core/Interp.hpp"
+#include "Engine/Audio/SoundManager.h"
 
 const int g_gameDuration = 60;
 

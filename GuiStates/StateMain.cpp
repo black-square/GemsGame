@@ -3,7 +3,7 @@
 #include "StateAutoPlay.h"
 #include "StateMainGame.h"
 #include "StateZenGame.h"
-#include "Gui/Widgets.h"
+#include "Engine/Gui/Widgets.h"
 
 //////////////////////////////////////////////////////////////////////////
 GuiStateMain::GuiStateMain()

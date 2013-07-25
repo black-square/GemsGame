@@ -1,0 +1,8 @@
+/Debug
+/ipch
+/*.sdf
+/*.suo
+/Release
+/*.aps
+/*.opensdf
+.DS_Store

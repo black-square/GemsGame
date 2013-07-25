@@ -2,7 +2,7 @@
 #define SimpleGameFieldRender_h__
 
 #include "Logic/GameField.h"
-#include "Texture.h"
+#include "Engine/Graphics/Texture.h"
 
 class SimpleGameFieldRender: boost::noncopyable
 {

@@ -1,12 +1,12 @@
 #ifndef StateZenGame_h__
 #define StateZenGame_h__
 
-#include "Gui/State.h"
+#include "Engine/Gui/State.h"
 #include "Logic/GameField.h"
 #include "Logic/GameLogic.h"
-#include "Gui/Widgets.h"
+#include "Engine/Gui/Widgets.h"
 #include "Graphics/GameFieldRender.h"
-#include "Core/TimeHelpers.hpp"
+#include "Engine/Core/TimeHelpers.hpp"
 
 class GuiStateZenGame: public Gui::State
 {

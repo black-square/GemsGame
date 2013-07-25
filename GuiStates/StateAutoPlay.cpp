@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "GuiStates/StateAutoPlay.h"
-#include "Gui/Widgets.h"
+#include "Engine/Gui/Widgets.h"
 
 GuiStateAutoPlay::GuiStateAutoPlay():
   m_logic(m_field), m_fieldRender(m_field), m_movesCount(0)

@@ -2,8 +2,8 @@
 #define GameFieldRender_h__
 
 #include "Logic/GameLogic.h"
-#include "Texture.h"
-#include "Particles/ParticlesManager.h"
+#include "Engine/Graphics/Texture.h"
+#include "Engine/Particles/ParticlesManager.h"
 
 //////////////////////////////////////////////////////////////////////////
 

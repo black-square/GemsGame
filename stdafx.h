@@ -10,19 +10,7 @@
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 #endif
 
-#ifdef WIN32
-  #include <SDL.h>
-  #include <SDL_ttf.h>
-  #include <SDL_image.h>
-  #include <SDL_opengl.h>
-  #include <SDL_audio.h>
-#else
-  #include <SDL/SDL.h>
-  #include <SDL_ttf/SDL_ttf.h>
-  #include <SDL_image/SDL_image.h>
-  #include <SDL/SDL_opengl.h>
-  #include <SDL/SDL_audio.h>
-#endif
+#include "Engine/engine_stdafx.h"
 
 
 #include <cstdlib>     
@@ -45,11 +33,9 @@
 #include <boost/algorithm/minmax.hpp>
 #include <boost/algorithm/minmax_element.hpp>
 
-#include "Core/CommonMacros.h"
-#include "Core/StrFormat.h"
-#include "Core/Log.h"
-#include "Core/Point.hpp"
-#include "Core/Rect.hpp"
+
+#include "Engine/Core/Point.hpp"
+#include "Engine/Core/Rect.hpp"
 
 
 

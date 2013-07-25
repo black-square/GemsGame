@@ -92,70 +92,69 @@ copy /y "$(ProjectDir)\..\SDL\SDL_ttf-2.0.11\lib\x86\*.dll" "$(OutputPath)\\"</C
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Audio\Sound.h" />
-    <ClInclude Include="Audio\SoundCache.h" />
-    <ClInclude Include="Audio\SoundManager.h" />
-    <ClInclude Include="Core\CommonMacros.h" />
-    <ClInclude Include="Core\Interp.hpp" />
-    <ClInclude Include="Core\Log.h" />
-    <ClInclude Include="Core\Point.hpp" />
-    <ClInclude Include="Core\Rect.hpp" />
-    <ClInclude Include="Core\Size.hpp" />
-    <ClInclude Include="Core\StrFormat.h" />
-    <ClInclude Include="Core\TimeHelpers.hpp" />
-    <ClInclude Include="Graphics\Color.hpp" />
-    <ClInclude Include="Graphics\Font.h" />
+    <ClInclude Include="Engine\Audio\Sound.h" />
+    <ClInclude Include="Engine\Audio\SoundCache.h" />
+    <ClInclude Include="Engine\Audio\SoundManager.h" />
+    <ClInclude Include="Engine\Core\CommonMacros.h" />
+    <ClInclude Include="Engine\Core\Interp.hpp" />
+    <ClInclude Include="Engine\Core\Log.h" />
+    <ClInclude Include="Engine\Core\Point.hpp" />
+    <ClInclude Include="Engine\Core\Rect.hpp" />
+    <ClInclude Include="Engine\Core\Size.hpp" />
+    <ClInclude Include="Engine\Core\StrFormat.h" />
+    <ClInclude Include="Engine\Core\TimeHelpers.hpp" />
+    <ClInclude Include="Engine\engine_stdafx.h" />
+    <ClInclude Include="Engine\Graphics\Color.hpp" />
+    <ClInclude Include="Engine\Graphics\Font.h" />
+    <ClInclude Include="Engine\Graphics\Texture.h" />
+    <ClInclude Include="Engine\Gui\State.h" />
+    <ClInclude Include="Engine\Gui\Widgets.h" />
+    <ClInclude Include="Engine\Main.h" />
+    <ClInclude Include="Engine\Particles\Particle.h" />
+    <ClInclude Include="Engine\Particles\ParticlesManager.h" />
+    <ClInclude Include="Engine\System\App.h" />
+    <ClInclude Include="Engine\System\AppBase.h" />
     <ClInclude Include="Graphics\GameFieldRender.h" />
     <ClInclude Include="Graphics\GameFieldRenderGemObj.h" />
     <ClInclude Include="Graphics\SimpleGameFieldRender.h" />
-    <ClInclude Include="Graphics\Texture.h" />
     <ClInclude Include="GuiStates\StateAutoPlay.h" />
     <ClInclude Include="GuiStates\StateMain.h" />
     <ClInclude Include="GuiStates\StateMainGame.h" />
     <ClInclude Include="GuiStates\StateZenGame.h" />
-    <ClInclude Include="Gui\State.h" />
-    <ClInclude Include="Gui\Widgets.h" />
     <ClInclude Include="Logic\AutoPlay.h" />
     <ClInclude Include="Logic\GameField.h" />
     <ClInclude Include="Logic\GameLogic.h" />
-    <ClInclude Include="Main.h" />
-    <ClInclude Include="Particles\Particle.h" />
-    <ClInclude Include="Particles\ParticlesManager.h" />
-    <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="System\App.h" />
-    <ClInclude Include="System\AppBase.h" />
-    <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Audio\Sound.cpp" />
-    <ClCompile Include="Audio\SoundCache.cpp" />
-    <ClCompile Include="Audio\SoundManager.cpp" />
-    <ClCompile Include="Core\Log.cpp" />
-    <ClCompile Include="Core\StrFormat.cpp" />
-    <ClCompile Include="Graphics\Font.cpp" />
+    <ClCompile Include="Engine\Audio\Sound.cpp" />
+    <ClCompile Include="Engine\Audio\SoundCache.cpp" />
+    <ClCompile Include="Engine\Audio\SoundManager.cpp" />
+    <ClCompile Include="Engine\Core\Log.cpp" />
+    <ClCompile Include="Engine\Core\StrFormat.cpp" />
+    <ClCompile Include="Engine\Graphics\Font.cpp" />
+    <ClCompile Include="Engine\Graphics\Texture.cpp" />
+    <ClCompile Include="Engine\Gui\State.cpp" />
+    <ClCompile Include="Engine\Gui\Widgets.cpp" />
+    <ClCompile Include="Engine\Main.cpp" />
+    <ClCompile Include="Engine\Particles\Particle.cpp" />
+    <ClCompile Include="Engine\Particles\ParticlesManager.cpp" />
+    <ClCompile Include="Engine\System\App.cpp" />
+    <ClCompile Include="Engine\System\AppBase.cpp" />
     <ClCompile Include="Graphics\GameFieldRender.cpp" />
     <ClCompile Include="Graphics\GameFieldRenderGemObj.cpp" />
     <ClCompile Include="Graphics\SimpleGameFieldRender.cpp" />
-    <ClCompile Include="Graphics\Texture.cpp" />
     <ClCompile Include="GuiStates\StateAutoPlay.cpp" />
     <ClCompile Include="GuiStates\StateMain.cpp" />
     <ClCompile Include="GuiStates\StateMainGame.cpp" />
     <ClCompile Include="GuiStates\StateZenGame.cpp" />
-    <ClCompile Include="Gui\State.cpp" />
-    <ClCompile Include="Gui\Widgets.cpp" />
     <ClCompile Include="Logic\AutoPlay.cpp" />
     <ClCompile Include="Logic\GameField.cpp" />
     <ClCompile Include="Logic\GameLogic.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Particles\Particle.cpp" />
-    <ClCompile Include="Particles\ParticlesManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="System\App.cpp" />
-    <ClCompile Include="System\AppBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="project.rc" />
