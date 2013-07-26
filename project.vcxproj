@@ -62,9 +62,7 @@
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)\..\SDL\SDL-1.2.15\lib\x86\SDL.dll" "$(OutputPath)\\"
-copy /y "$(ProjectDir)\..\SDL\SDL_image-1.2.12\lib\x86\*.dll" "$(OutputPath)\\"
-copy /y "$(ProjectDir)\..\SDL\SDL_ttf-2.0.11\lib\x86\*.dll" "$(OutputPath)\\"</Command>
+      <Command>call "$(ProjectDir)Engine\PostBuild.bat" "$(Configuration)" "$(OutputPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -87,9 +85,7 @@ copy /y "$(ProjectDir)\..\SDL\SDL_ttf-2.0.11\lib\x86\*.dll" "$(OutputPath)\\"</C
       <AdditionalDependencies>SDL.lib;SDLmain.lib;SDL_image.lib;SDL_ttf.lib;Opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)\..\SDL\SDL-1.2.15\lib\x86\SDL.dll" "$(OutputPath)\\"
-copy /y "$(ProjectDir)\..\SDL\SDL_image-1.2.12\lib\x86\*.dll" "$(OutputPath)\\"
-copy /y "$(ProjectDir)\..\SDL\SDL_ttf-2.0.11\lib\x86\*.dll" "$(OutputPath)\\"</Command>
+      <Command>call "$(ProjectDir)Engine\PostBuild.bat" "$(Configuration)" "$(OutputPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
