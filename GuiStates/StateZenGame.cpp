@@ -54,7 +54,7 @@ void GuiStateZenGame::ReturnToMainState()
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GuiStateZenGame::OnRender() const
+void GuiStateZenGame::OnRender( float deltaTime ) const
 {
   if( !m_timerHideMoves.IsInProgress() )
     BOOST_FOREACH( const GameLogic::TMove &cur, m_possibleMoves )

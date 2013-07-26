@@ -72,7 +72,7 @@ void GuiStateMainGame::ReturnToMainState()
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GuiStateMainGame::OnRender() const
+void GuiStateMainGame::OnRender( float deltaTime ) const
 {
   m_fieldRender.Render();
 

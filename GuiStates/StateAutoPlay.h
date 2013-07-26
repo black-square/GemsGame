@@ -22,7 +22,7 @@ private:
   void OnLButtonUp( Point pos );
   void OnKeyDown( SDLKey sym, SDLMod mod, Uint16 unicode );
   void OnUpdate( float deltaTime );
-  void OnRender() const;
+  void OnRender( float deltaTime ) const;
   
   void OnGemSwap( Point p1, Point p2 );
 

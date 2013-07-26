@@ -17,7 +17,7 @@ public:
   GuiStateMainGame();
 
 private:
-  void OnRender() const;
+  void OnRender( float deltaTime ) const;
   void OnUpdate( float deltaTime );
   void OnLButtonDown( Point pos );
   void OnLButtonUp( Point pos );

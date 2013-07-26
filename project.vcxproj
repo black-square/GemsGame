@@ -115,6 +115,7 @@ copy /y "$(ProjectDir)\..\SDL\SDL_ttf-2.0.11\lib\x86\*.dll" "$(OutputPath)\\"</C
     <ClInclude Include="Engine\Particles\ParticlesManager.h" />
     <ClInclude Include="Engine\System\App.h" />
     <ClInclude Include="Engine\System\AppBase.h" />
+    <ClInclude Include="Graphics\Effects.h" />
     <ClInclude Include="Graphics\GameFieldRender.h" />
     <ClInclude Include="Graphics\GameFieldRenderGemObj.h" />
     <ClInclude Include="Graphics\SimpleGameFieldRender.h" />
@@ -128,6 +129,7 @@ copy /y "$(ProjectDir)\..\SDL\SDL_ttf-2.0.11\lib\x86\*.dll" "$(OutputPath)\\"</C
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EngineParams.cpp" />
     <ClCompile Include="Engine\Audio\Sound.cpp" />
     <ClCompile Include="Engine\Audio\SoundCache.cpp" />
     <ClCompile Include="Engine\Audio\SoundManager.cpp" />
@@ -142,6 +144,7 @@ copy /y "$(ProjectDir)\..\SDL\SDL_ttf-2.0.11\lib\x86\*.dll" "$(OutputPath)\\"</C
     <ClCompile Include="Engine\Particles\ParticlesManager.cpp" />
     <ClCompile Include="Engine\System\App.cpp" />
     <ClCompile Include="Engine\System\AppBase.cpp" />
+    <ClCompile Include="Graphics\Effects.cpp" />
     <ClCompile Include="Graphics\GameFieldRender.cpp" />
     <ClCompile Include="Graphics\GameFieldRenderGemObj.cpp" />
     <ClCompile Include="Graphics\SimpleGameFieldRender.cpp" />

@@ -2,6 +2,7 @@
 #include "GameFieldRender.h"
 #include "GameFieldRenderGemObj.h"
 #include "Engine/Audio/SoundManager.h"
+#include "Effects.h"
 
 //////////////////////////////////////////////////////////////////////////
 

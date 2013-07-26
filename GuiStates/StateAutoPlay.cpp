@@ -105,7 +105,7 @@ void GuiStateAutoPlay::OnUpdate( float deltaTime )
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GuiStateAutoPlay::OnRender() const
+void GuiStateAutoPlay::OnRender( float deltaTime ) const
 {  
   BOOST_FOREACH( const Point &cur, m_autoPlay.GetMarks() )
     m_fieldRender.RenderMark( cur ); 
