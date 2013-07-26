@@ -357,9 +357,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C37BD536174F704B00098B7C /* TheGame */ = {
+		C37BD536174F704B00098B7C /* GemsGame */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C37BD54F174F704B00098B7C /* Build configuration list for PBXNativeTarget "TheGame" */;
+			buildConfigurationList = C37BD54F174F704B00098B7C /* Build configuration list for PBXNativeTarget "GemsGame" */;
 			buildPhases = (
 				C37BD533174F704B00098B7C /* Sources */,
 				C37BD534174F704B00098B7C /* Frameworks */,
@@ -371,7 +371,7 @@
 			);
 			dependencies = (
 			);
-			name = TheGame;
+			name = GemsGame;
 			productName = TheGame;
 			productReference = C37BD537174F704B00098B7C /* TheGame.app */;
 			productType = "com.apple.product-type.application";
@@ -397,7 +397,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C37BD536174F704B00098B7C /* TheGame */,
+				C37BD536174F704B00098B7C /* GemsGame */,
 			);
 		};
 /* End PBXProject section */
@@ -615,7 +615,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C37BD54F174F704B00098B7C /* Build configuration list for PBXNativeTarget "TheGame" */ = {
+		C37BD54F174F704B00098B7C /* Build configuration list for PBXNativeTarget "GemsGame" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C37BD550174F704B00098B7C /* Debug */,
