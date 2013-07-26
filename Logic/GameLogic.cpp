@@ -353,7 +353,7 @@ void GameLogic::FindAllMoves( TMoves &moves ) const
 const GameLogic::TMove &GameLogic::GetRand( const TMoves &moves ) const
 {
   ASSERT( !moves.empty() ); 
-  return moves[ TRngGen( 0, moves.size() - 1 )( m_rng ) ];
+  return moves[ TRngGen( 0, static_cast<int>(moves.size()) - 1 )( m_rng ) ];
 }
 //////////////////////////////////////////////////////////////////////////
 

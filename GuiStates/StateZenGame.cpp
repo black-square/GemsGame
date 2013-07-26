@@ -57,8 +57,10 @@ void GuiStateZenGame::ReturnToMainState()
 void GuiStateZenGame::OnRender( float deltaTime ) const
 {
   if( !m_timerHideMoves.IsInProgress() )
+  {
     BOOST_FOREACH( const GameLogic::TMove &cur, m_possibleMoves )
-      m_fieldRender.RenderMark( cur.first ); 
+      m_fieldRender.RenderMark( cur.first );
+  }
 
   m_fieldRender.Render();
 
@@ -66,8 +68,10 @@ void GuiStateZenGame::OnRender( float deltaTime ) const
   Draw( *m_pTexBack, backRect, backRect );
 
   if( m_timerShowMatches.IsInProgress() )
+  {
     BOOST_FOREACH( const Point &pt, m_matches )
       m_fieldRender.RenderMark(pt, 1);
+  }
 
   m_pLblFinalText->Render();
 }

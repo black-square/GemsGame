@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C3565BA517A2E8EC004BF9BF /* BoostBuild.txt in Resources */ = {isa = PBXBuildFile; fileRef = C3565BA417A2E8EC004BF9BF /* BoostBuild.txt */; };
 		C3694B6E174F72E6005EED2F /* SDL_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3E3D2D4174EC1FF00C7752B /* SDL_image.framework */; };
 		C3694B6F174F72E7005EED2F /* SDL_ttf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3E3D2D2174EC1D400C7752B /* SDL_ttf.framework */; };
 		C3694B70174F72E7005EED2F /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3E3D2D0174EC0BA00C7752B /* OpenGL.framework */; };
@@ -26,6 +27,8 @@
 		C37BD542174F704B00098B7C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C37BD540174F704B00098B7C /* InfoPlist.strings */; };
 		C37BD548174F704B00098B7C /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C37BD546174F704B00098B7C /* Credits.rtf */; };
 		C37BD54E174F704B00098B7C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C37BD54C174F704B00098B7C /* MainMenu.xib */; };
+		C3EA934217A2D63C006975BF /* EngineParams.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3EA934117A2D63C006975BF /* EngineParams.cpp */; };
+		C3EA934C17A2D67F006975BF /* Effects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3EA934917A2D67F006975BF /* Effects.cpp */; };
 		C3EE8DC617A1EB8100BBFBCC /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3EE8D9A17A1EB8100BBFBCC /* Sound.cpp */; };
 		C3EE8DC717A1EB8100BBFBCC /* SoundCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3EE8D9C17A1EB8100BBFBCC /* SoundCache.cpp */; };
 		C3EE8DC817A1EB8100BBFBCC /* SoundManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3EE8D9E17A1EB8100BBFBCC /* SoundManager.cpp */; };
@@ -62,7 +65,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		C37BD537174F704B00098B7C /* TheGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3565BA417A2E8EC004BF9BF /* BoostBuild.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BoostBuild.txt; sourceTree = "<group>"; };
+		C37BD537174F704B00098B7C /* TheGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = TheGame.app; path = GemsGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C37BD53A174F704B00098B7C /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		C37BD53B174F704B00098B7C /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		C37BD53C174F704B00098B7C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -98,6 +102,9 @@
 		C3E3D2D0174EC0BA00C7752B /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		C3E3D2D2174EC1D400C7752B /* SDL_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_ttf.framework; path = /Library/Frameworks/SDL_ttf.framework; sourceTree = "<absolute>"; };
 		C3E3D2D4174EC1FF00C7752B /* SDL_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_image.framework; path = /Library/Frameworks/SDL_image.framework; sourceTree = "<absolute>"; };
+		C3EA934117A2D63C006975BF /* EngineParams.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EngineParams.cpp; sourceTree = "<group>"; };
+		C3EA934817A2D67F006975BF /* Effects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Effects.h; sourceTree = "<group>"; };
+		C3EA934917A2D67F006975BF /* Effects.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Effects.cpp; sourceTree = "<group>"; };
 		C3EE8D9A17A1EB8100BBFBCC /* Sound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sound.cpp; sourceTree = "<group>"; };
 		C3EE8D9B17A1EB8100BBFBCC /* Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
 		C3EE8D9C17A1EB8100BBFBCC /* SoundCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundCache.cpp; sourceTree = "<group>"; };
@@ -163,6 +170,7 @@
 				C3E3D2A2174EBFC100C7752B /* Logic */,
 				C3E3D2B3174EBFC100C7752B /* stdafx.cpp */,
 				C3E3D2B5174EBFC100C7752B /* stdafx.h */,
+				C3EA934117A2D63C006975BF /* EngineParams.cpp */,
 				C37BD53D174F704B00098B7C /* MacResources */,
 				C364C3E1174EBA3E002A0A72 /* Products */,
 				C37BD532174F6ED800098B7C /* Frameworks */,
@@ -223,6 +231,8 @@
 		C3E3D289174EBFC100C7752B /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				C3EA934817A2D67F006975BF /* Effects.h */,
+				C3EA934917A2D67F006975BF /* Effects.cpp */,
 				C3E3D28C174EBFC100C7752B /* GameFieldRender.cpp */,
 				C3E3D28D174EBFC100C7752B /* GameFieldRender.h */,
 				C3E3D28E174EBFC100C7752B /* GameFieldRenderGemObj.cpp */,
@@ -264,6 +274,7 @@
 		C3EE8D9717A1EB8100BBFBCC /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				C3565BA417A2E8EC004BF9BF /* BoostBuild.txt */,
 				C3EE8D9917A1EB8100BBFBCC /* Audio */,
 				C3EE8DA017A1EB8100BBFBCC /* Core */,
 				C3EE8DAB17A1EB8100BBFBCC /* engine_stdafx.h */,
@@ -410,6 +421,7 @@
 				C37BD542174F704B00098B7C /* InfoPlist.strings in Resources */,
 				C37BD548174F704B00098B7C /* Credits.rtf in Resources */,
 				C37BD54E174F704B00098B7C /* MainMenu.xib in Resources */,
+				C3565BA517A2E8EC004BF9BF /* BoostBuild.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,6 +475,8 @@
 				C3EE8DD217A1EB8100BBFBCC /* SDLMain.m in Sources */,
 				C3EE8DD317A1EB8100BBFBCC /* App.cpp in Sources */,
 				C3EE8DD417A1EB8100BBFBCC /* AppBase.cpp in Sources */,
+				C3EA934217A2D63C006975BF /* EngineParams.cpp in Sources */,
+				C3EA934C17A2D67F006975BF /* Effects.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -522,7 +536,6 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -564,7 +577,6 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MacResources/Project-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
