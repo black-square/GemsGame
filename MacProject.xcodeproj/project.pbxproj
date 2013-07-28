@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C3565BA517A2E8EC004BF9BF /* BoostBuild.txt in Resources */ = {isa = PBXBuildFile; fileRef = C3565BA417A2E8EC004BF9BF /* BoostBuild.txt */; };
 		C3694B6E174F72E6005EED2F /* SDL_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3E3D2D4174EC1FF00C7752B /* SDL_image.framework */; };
 		C3694B6F174F72E7005EED2F /* SDL_ttf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3E3D2D2174EC1D400C7752B /* SDL_ttf.framework */; };
 		C3694B70174F72E7005EED2F /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3E3D2D0174EC0BA00C7752B /* OpenGL.framework */; };
@@ -65,7 +64,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		C3565BA417A2E8EC004BF9BF /* BoostBuild.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BoostBuild.txt; sourceTree = "<group>"; };
 		C37BD537174F704B00098B7C /* TheGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = TheGame.app; path = GemsGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C37BD53A174F704B00098B7C /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		C37BD53B174F704B00098B7C /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -274,7 +272,6 @@
 		C3EE8D9717A1EB8100BBFBCC /* Engine */ = {
 			isa = PBXGroup;
 			children = (
-				C3565BA417A2E8EC004BF9BF /* BoostBuild.txt */,
 				C3EE8D9917A1EB8100BBFBCC /* Audio */,
 				C3EE8DA017A1EB8100BBFBCC /* Core */,
 				C3EE8DAB17A1EB8100BBFBCC /* engine_stdafx.h */,
@@ -421,7 +418,6 @@
 				C37BD542174F704B00098B7C /* InfoPlist.strings in Resources */,
 				C37BD548174F704B00098B7C /* Credits.rtf in Resources */,
 				C37BD54E174F704B00098B7C /* MainMenu.xib in Resources */,
-				C3565BA517A2E8EC004BF9BF /* BoostBuild.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
