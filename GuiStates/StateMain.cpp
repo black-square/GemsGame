@@ -19,7 +19,7 @@ GuiStateMain::GuiStateMain()
   AddWidget( boost::make_shared<Gui::Label>(
     Point(377, 10),
     boost::make_shared<Font>( "./_data/gm.ttf", 150), 
-    "The Game",
+    "Gems Game",
     Color::make_white(),
     Gui::Label::Center
   ));
@@ -27,7 +27,7 @@ GuiStateMain::GuiStateMain()
   AddWidget( boost::make_shared<Gui::Label>(
     Point(377, 545),
     boost::make_shared<Font>( "./_data/gm.ttf", 50), 
-    "Dmitry Shesterkin   dfb@yandex.ru",
+    "mango2d engine demo",
     Color::make_white(),
     Gui::Label::Center
   ));

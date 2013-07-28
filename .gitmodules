@@ -1,3 +1,4 @@
 [submodule "Engine"]
 	path = Engine
 	url = https://github.com/black-square/mango2d.git
+	branch = master
