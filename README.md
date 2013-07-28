@@ -1,6 +1,6 @@
 # GemsGame
 
-Board game where you need to match three of the same color gems in a row.
+Puzzle game where you need to match three gems of the same color in a row.
 
 [mango2d engine demo](https://github.com/black-square/mango2d)
 
