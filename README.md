@@ -1,7 +1,10 @@
 # GemsGame
 
 Board game where you need to match three of the same color gems in a row.
+
 [mango2d engine demo](https://github.com/black-square/mango2d)
+
+**[Download binaries for Mac and Windows](https://github.com/black-square/GemsGame/releases)**
 
 ## Features
 - Multiplatform code: Mac OS and Windows
